@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ll</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./layui/layui.js"></script>
+    <script src="./js/jquery-1.8.3.min.js"></script>
+    <script src="./js/xadmin.js"></script>
+</head>
+<style type="text/css">
+    .layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
+        top: 50%;
+        transform: translateY(-50%);
+    }
+</style>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+
+                    <div class="demoTable">
+                        搜索姓名：
+                        <div class="layui-inline">
+                            <input class="layui-input" name="c_name" id="demoReload" autocomplete="off"  data-type="reload">
+                        </div>
+                        <button class="layui-btn" data-type="reload">搜索</button>
+                        <button class="layui-btn" data-type="queren" id="queren">确认</button>
+                    </div>
+                    <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //方法级渲染
+        table.render({
+            elem: '#LAY_table_user'
+            ,url: 'selectbjsxx'
+            ,cols: [ [
+                {field:'c_name', title: '姓名', width:120, sort: true,unresize: true}
+                ,{field:'c_age', title: '年龄', width:90,unresize: true}
+                ,{field:'c_sex', title: '性别', width:120,unresize: true}
+                ,{field:'c_birthday', title: '出生年月', width:120,unresize: true}
+                ,{field:'c_address', title: '地址', width:135,unresize: true}
+            ] ]
+            ,id: 'testReload'
+            ,page: {
+                limit:5,
+                limits:[5,10,15,20]
+            }
+            ,height: 300
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var demoReload = $('#demoReload');
+
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        c_name: demoReload.val()
+                    }
+                });
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        var flag = true;
+        $('#demoReload').on('compositionstart',function(){
+            flag = false;
+        });
+        $('#demoReload').on('compositionend',function(){
+            flag = true;
+        });
+        $('#demoReload').on('input',function(){
+            setTimeout(function(){
+                if(flag){
+                    var type = $('#demoReload').data('type');
+                    active[type] ? active[type].call(this) : '';
+                }
+            },0);
+        });
+
+        $("#queren").click(function(){
+            var checkStatus = table.checkStatus('testReload')
+            var index = parent.layer.getFrameIndex(window.name);
+            //先得到当前iframe层的索引
+            var data = checkStatus.data;
+            parent.layer.close(index);
+            parent.ChooseAdidValues(data);
+        })
+    });
+</script>
+</html>
