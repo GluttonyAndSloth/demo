@@ -26,4 +26,7 @@
         </if>
          limit #{begin},#{end}
     </select>
+    <update id="xgbjszt" parameterType="com.home.demo.entity.baojieshi">
+        UPDATE cleaner set c_status=#{c_status} where c_id=#{c_id}
+    </update>
 </mapper>

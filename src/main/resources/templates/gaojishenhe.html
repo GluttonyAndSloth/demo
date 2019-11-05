@@ -35,12 +35,10 @@
                             <input class="layui-input" name="c_name" id="demoReload" autocomplete="off"  data-type="reload">
                         </div>
                         <button class="layui-btn" data-type="reload">搜索</button>
+                        <button class="layui-btn" data-type="queren" id="queren">确认</button>
                     </div>
                     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
-                    <script type="text/html" id="switchTpl">
-                        <!-- 这里的 checked 的状态只是演示 -->
-                        <input type="checkbox" name="{{d.c_status}}" value="{{d.c_id}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="sexDemo" {{ d.c_status == '正常' ? 'checked' : '' }}>
-                    </script>
+
                 </div>
             </div>
         </div>
@@ -48,9 +46,9 @@
 </div>
 </body>
 <script>
-    layui.use(['table','form'], function(){
-        var table = layui.table
-            ,form = layui.form;
+    layui.use('table', function(){
+        var table = layui.table;
+
         //方法级渲染
         table.render({
             elem: '#LAY_table_user'
@@ -61,9 +59,7 @@
                 ,{field:'c_sex', title: '性别', width:120,unresize: true}
                 ,{field:'c_birthday', title: '出生年月', width:120,unresize: true}
                 ,{field:'c_address', title: '地址', width:135,unresize: true}
-                ,{field:'c_work', title: '个人介绍', width:135,unresize: true}
-                ,{field:'c_status', title: '用户状态', width:135,unresize: true}
-                ,{fixed: 'right', title:'操作', toolbar: '#switchTpl', width:150}
+
             ] ]
             ,id: 'testReload'
             ,page: {
@@ -72,9 +68,11 @@
             }
             ,height: 300
         });
+
         var $ = layui.$, active = {
             reload: function(){
                 var demoReload = $('#demoReload');
+
                 //执行重载
                 table.reload('testReload', {
                     page: {
@@ -86,10 +84,12 @@
                 });
             }
         };
+
         $('.demoTable .layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+
         var flag = true;
         $('#demoReload').on('compositionstart',function(){
             flag = false;
@@ -105,43 +105,15 @@
                 }
             },0);
         });
-            form.on('switch(sexDemo)', function(obj){
-                var id=this.value;
-                var zt=this.name;
-                if(zt=='正常'){
-                    zt='封禁';
-                }else {
-                    zt='正常';
-                }
-                alert(id);
-                alert(zt);
-                $.ajax({
-                    url:"xgbjszt",
-                    data:{"c_id":id,"c_status":zt},
-                    type:"post",
-                    success:function(data){
-                        alert(data);
-                        if(data=='dd'){
-                            layer.msg('xg成功',{
-                                icon:1,
-                                time:2000
-                            },function(){
-                                var type = $('#demoReload').data('type');
-                                active[type] ? active[type].call(this) : '';
-                            });
-                        }else{
-                            layer.msg('登录失败',{
-                                icon:2,
-                                time:2000
-                            },function(){
 
-                            });
-                        }
-                    }
-                })
-        });
-
+        $("#queren").click(function(){
+            var checkStatus = table.checkStatus('testReload')
+            var index = parent.layer.getFrameIndex(window.name);
+            //先得到当前iframe层的索引
+            var data = checkStatus.data;
+            parent.layer.close(index);
+            parent.ChooseAdidValues(data);
+        })
     });
-
 </script>
 </html>

@@ -90,4 +90,19 @@ public String zhuye(){
         pageutil.setMsg("");
         return pageutil;
     }
+    @RequestMapping("gaojishenhe")
+    public String gaojishenhe(){
+        return "gaojishenhe";
+    }
+    @RequestMapping("xgbjszt")
+    @ResponseBody
+    public Object xgbjszt( baojieshi baojie) {
+      int ss=dengluService.xgbjszt(baojie);
+      if(ss>0){
+          return "dd";
+      }else {
+          return "ss";
+      }
+
+    }
 }

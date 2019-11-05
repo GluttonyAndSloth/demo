@@ -15,4 +15,5 @@ public interface DengluMapper {
     public List<quanxian> selectcq(String u_name);
     public int selectbjss(Map<String, Object> map);
     public List<baojieshi> selectbjsxx(Map<String,Object> map);
+    public int xgbjszt(baojieshi baojie);
 }

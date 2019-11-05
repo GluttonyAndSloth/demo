@@ -41,4 +41,7 @@ public class DengluService {
         map.put("c_name",baojie.getC_name());
         return dengluMapper.selectbjsxx(map);
     }
+    public int xgbjszt(baojieshi baojie){
+        return dengluMapper.xgbjszt(baojie);
+    };
 }
