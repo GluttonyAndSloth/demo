@@ -74,10 +74,11 @@
             var data = obj.data;
             if(obj.event === 'add'){
                  var ddd=data.o_address.substring(0,3);
+                 var ccc=data.o_id;
                 layer.open({
                     title: ['选择服务人员', 'font-size:18px;'],
                     type: 2,
-                    content:  ['chapaidanren?o_address='+ddd,'no'] ,
+                    content:  ['chapaidanren?o_address='+ddd+'&&o_id='+ccc,'no'] ,
                     area: ['1500px', '800px'],
                     skin: 'layui-layer-rim'
                 });

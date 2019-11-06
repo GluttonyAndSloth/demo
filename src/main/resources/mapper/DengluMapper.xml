@@ -58,4 +58,7 @@
         </if>
         limit #{begin},#{end}
     </select>
+    <update id="pqfwry" parameterType="com.home.demo.entity.dingdan">
+        UPDATE orders set c_id=#{c_id} where o_id=#{o_id}
+    </update>
 </mapper>

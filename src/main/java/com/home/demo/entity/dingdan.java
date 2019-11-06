@@ -14,8 +14,11 @@ public class dingdan {
     private Integer o_total;
     private Integer id;
     private String o_paisong;
+    private String o_pingjia;
+    private Integer c_id;
+    private Date c_xiadantime;
 
-    public dingdan(Integer o_id, String o_name, Date o_time, String o_address, String o_phone, Integer o_price, Integer o_count, String o_state, Integer o_total, Integer id, String o_paisong) {
+    public dingdan(Integer o_id, String o_name, Date o_time, String o_address, String o_phone, Integer o_price, Integer o_count, String o_state, Integer o_total, Integer id, String o_paisong, String o_pingjia, Integer c_id, Date c_xiadantime) {
         this.o_id = o_id;
         this.o_name = o_name;
         this.o_time = o_time;
@@ -27,6 +30,9 @@ public class dingdan {
         this.o_total = o_total;
         this.id = id;
         this.o_paisong = o_paisong;
+        this.o_pingjia = o_pingjia;
+        this.c_id = c_id;
+        this.c_xiadantime = c_xiadantime;
     }
 
     public Integer getO_id() {
@@ -117,6 +123,30 @@ public class dingdan {
         this.o_paisong = o_paisong;
     }
 
+    public String getO_pingjia() {
+        return o_pingjia;
+    }
+
+    public void setO_pingjia(String o_pingjia) {
+        this.o_pingjia = o_pingjia;
+    }
+
+    public Integer getC_id() {
+        return c_id;
+    }
+
+    public void setC_id(Integer c_id) {
+        this.c_id = c_id;
+    }
+
+    public Date getC_xiadantime() {
+        return c_xiadantime;
+    }
+
+    public void setC_xiadantime(Date c_xiadantime) {
+        this.c_xiadantime = c_xiadantime;
+    }
+
     @Override
     public String toString() {
         return "dingdan{" +
@@ -124,13 +154,16 @@ public class dingdan {
                 ", o_name='" + o_name + '\'' +
                 ", o_time=" + o_time +
                 ", o_address='" + o_address + '\'' +
-                ", o_phone=" + o_phone +
+                ", o_phone='" + o_phone + '\'' +
                 ", o_price=" + o_price +
                 ", o_count=" + o_count +
                 ", o_state='" + o_state + '\'' +
                 ", o_total=" + o_total +
                 ", id=" + id +
                 ", o_paisong='" + o_paisong + '\'' +
+                ", o_pingjia='" + o_pingjia + '\'' +
+                ", c_id=" + c_id +
+                ", c_xiadantime=" + c_xiadantime +
                 '}';
     }
 

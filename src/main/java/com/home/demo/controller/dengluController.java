@@ -146,9 +146,11 @@ public String zhuye(){
         return pageutil;
     }
     @RequestMapping("chapaidanren")
-    public String chapaidanren(String o_address,Model model){
+    public String chapaidanren(String o_address,Model model,String o_id){
         System.out.println(o_address);
+        System.out.println(o_id);
      model.addAttribute("nnnn",o_address);
+        model.addAttribute("mmmm",o_id);
         return "chapaidanren";
     }
     @RequestMapping("selectfwrxx")
@@ -176,4 +178,5 @@ public String zhuye(){
     public String dingdanmingxi(){
         return "dingdanmingxi";
     }
+
 }

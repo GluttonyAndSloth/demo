@@ -89,4 +89,7 @@ public int selectbdws() {
         map.put("c_address",baojie.getC_address());
         return dengluMapper.selectfwrxx(map);
     }
+    public int pqfwry(dingdan ding){
+        return dengluMapper.pqfwry(ding);
+    };
 }

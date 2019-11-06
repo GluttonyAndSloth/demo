@@ -23,4 +23,5 @@ public int selectbdws();
     public List<dingdan> selectdbjxx(Map<String,Object> map);
     public int selectfwrs(Map<String, Object> map);
     public List<baojieshi> selectfwrxx(Map<String,Object> map);
+    public int pqfwry(dingdan ding);
 }
