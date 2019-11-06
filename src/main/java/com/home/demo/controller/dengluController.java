@@ -1,6 +1,7 @@
 package com.home.demo.controller;
 
 import com.home.demo.entity.baojieshi;
+import com.home.demo.entity.dingdan;
 import com.home.demo.entity.quanxian;
 import com.home.demo.entity.user;
 import com.home.demo.service.DengluService;
@@ -94,7 +95,7 @@ public String zhuye(){
     public String gaojishenhe(){
         return "gaojishenhe";
     }
-    @RequestMapping("xgbjszt")
+ /*   @RequestMapping("xgbjszt")
     @ResponseBody
     public Object xgbjszt( baojieshi baojie) {
       int ss=dengluService.xgbjszt(baojie);
@@ -103,6 +104,76 @@ public String zhuye(){
       }else {
           return "ss";
       }
-
+    }*/
+ @RequestMapping("yuangongguanli")
+ public String yuangongguanli(){
+     return "yuangongguanli";
+ }
+    @RequestMapping("weipaidan")
+    public String weipaidan(){
+        return "weipaidan";
+    }
+    @RequestMapping("selectdbxx")
+    @ResponseBody
+    public Object selectdbxx(PageVo pagevo, dingdan ding) {
+        int s = dengluService.selectbdws();
+        System.out.println(s);
+        List<dingdan> list = dengluService.selectdbwxx(pagevo, ding);
+        System.out.println(list);
+        PageUtil pageutil = new PageUtil();
+        pageutil.setCount(s);
+        pageutil.setCode(0);
+        pageutil.setData(list);
+        pageutil.setMsg("");
+        return pageutil;
+    }
+    @RequestMapping("dingdanjinxingzhong")
+    public String dingdanjinxingzhong(){
+        return "dingdanjinxingzhong";
+    }
+    @RequestMapping("selectdbjxx")
+    @ResponseBody
+    public Object selectdbjxx(PageVo pagevo, dingdan ding) {
+        int s = dengluService.selectbdjs();
+        System.out.println(s);
+        List<dingdan> list = dengluService.selectdbjxx(pagevo, ding);
+        System.out.println(list);
+        PageUtil pageutil = new PageUtil();
+        pageutil.setCount(s);
+        pageutil.setCode(0);
+        pageutil.setData(list);
+        pageutil.setMsg("");
+        return pageutil;
+    }
+    @RequestMapping("chapaidanren")
+    public String chapaidanren(String o_address,Model model){
+        System.out.println(o_address);
+     model.addAttribute("nnnn",o_address);
+        return "chapaidanren";
+    }
+    @RequestMapping("selectfwrxx")
+    @ResponseBody
+    public Object selectfwrxx(PageVo pagevo, baojieshi baojie) {
+        if (baojie.getC_address() != null && baojie.getC_address() != "") {
+            String sss = "%" + baojie.getC_address() + "%";
+            baojie.setC_address(sss);
+        } else {
+            baojie.setC_address("");
+        }
+        System.out.println(baojie.getC_address());
+        int s = dengluService.selectfwrs(baojie);
+        System.out.println(s);
+        List<baojieshi> list = dengluService.selectfwrxx(pagevo, baojie);
+        System.out.println(list);
+        PageUtil pageutil = new PageUtil();
+        pageutil.setCount(s);
+        pageutil.setCode(0);
+        pageutil.setData(list);
+        pageutil.setMsg("");
+        return pageutil;
+    }
+    @RequestMapping("dingdanmingxi")
+    public String dingdanmingxi(){
+        return "dingdanmingxi";
     }
 }

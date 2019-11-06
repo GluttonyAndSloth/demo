@@ -26,7 +26,36 @@
         </if>
          limit #{begin},#{end}
     </select>
-    <update id="xgbjszt" parameterType="com.home.demo.entity.baojieshi">
+<!--    <update id="xgbjszt" parameterType="com.home.demo.entity.baojieshi">
         UPDATE cleaner set c_status=#{c_status} where c_id=#{c_id}
-    </update>
+    </update>-->
+    <select id="selectbdws" resultType="int">
+        select count(*) from orders  where o_state='已付款' and o_paisong='未派送'
+    </select>
+    <select id="selectdbwxx" resultType="com.home.demo.entity.dingdan"
+            parameterType="map">
+        select * from orders  where o_state='已付款' and o_paisong='未派送' limit #{begin},#{end}
+    </select>
+    <select id="selectbdjs" resultType="int">
+        select count(*) from orders  where o_state='已付款' and o_paisong='派送中'
+    </select>
+    <select id="selectdbjxx" resultType="com.home.demo.entity.dingdan"
+            parameterType="map">
+        select * from orders  where o_state='已付款' and o_paisong='派送中' limit #{begin},#{end}
+    </select>
+    <select id="selectfwrs" resultType="int"
+            parameterType="map">
+        select count(*) from cleaner where 1=1 and c_status='正常'
+        <if test="c_address!=null and c_address!=''">
+            and c_address like #{c_address}
+        </if>
+    </select>
+    <select id="selectfwrxx" resultType="com.home.demo.entity.baojieshi"
+            parameterType="map">
+        select * from cleaner where 1=1 and c_status='正常'
+        <if test="c_address!=null and c_address!=''">
+            and c_address like #{c_address}
+        </if>
+        limit #{begin},#{end}
+    </select>
 </mapper>

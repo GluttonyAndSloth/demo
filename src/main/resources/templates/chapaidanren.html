@@ -28,17 +28,10 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-
-                    <div class="demoTable">
-                        搜索姓名：
-                        <div class="layui-inline">
-                            <input class="layui-input" name="c_name" id="demoReload" autocomplete="off"  data-type="reload">
-                        </div>
-                        <button class="layui-btn" data-type="reload">搜索</button>
-                    </div>
+                    <span id="di" th:text="${nnnn}" style="display: none;">dddd</span>
                     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
                     <script type="text/html" id="barDemo">
-                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看评价</a>
+                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">派遣我</a>
                     </script>
                 </div>
             </div>
@@ -47,13 +40,16 @@
 </div>
 </body>
 <script>
+    var dd=$("#di").text();
+    alert(dd);
     layui.use(['table','form'], function(){
         var table = layui.table
             ,form = layui.form;
         //方法级渲染
+
         table.render({
             elem: '#LAY_table_user'
-            ,url: 'selectbjsxx'
+            ,url: 'selectfwrxx?c_address='+dd
             ,cols: [ [
                 {field:'c_name', title: '姓名', width:120,unresize: true}
                 ,{field:'c_age', title: '年龄', width:90,unresize: true}
@@ -70,39 +66,6 @@
                 limits:[5,10,15,20]
             }
             ,height: 300
-        });
-        var $ = layui.$, active = {
-            reload: function(){
-                var demoReload = $('#demoReload');
-                //执行重载
-                table.reload('testReload', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    ,where: {
-                        c_name: demoReload.val()
-                    }
-                });
-            }
-        };
-        $('.demoTable .layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-        var flag = true;
-        $('#demoReload').on('compositionstart',function(){
-            flag = false;
-        });
-        $('#demoReload').on('compositionend',function(){
-            flag = true;
-        });
-        $('#demoReload').on('input',function(){
-            setTimeout(function(){
-                if(flag){
-                    var type = $('#demoReload').data('type');
-                    active[type] ? active[type].call(this) : '';
-                }
-            },0);
         });
 
     });
