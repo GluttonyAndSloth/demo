@@ -1,9 +1,6 @@
 package com.home.demo.controller;
 
-import com.home.demo.entity.baojieshi;
-import com.home.demo.entity.dingdan;
-import com.home.demo.entity.quanxian;
-import com.home.demo.entity.user;
+import com.home.demo.entity.*;
 import com.home.demo.service.DengluService;
 import com.home.demo.util.PageUtil;
 import com.home.demo.util.PageVo;
@@ -39,7 +36,13 @@ public class dengluController {
         try {
             subject.login(token);
             session.setAttribute("nnn",u_name);
-            return "ss";
+            session.setAttribute("zw",user.getR_id());
+            System.out.println(user.getU_status());
+            if(user.getU_status().equals("正常")){
+                return "ss";
+            }else {
+                return "meiquan";
+            }
         } catch (IncorrectCredentialsException e) {
 
             return "mima";
@@ -176,7 +179,187 @@ public String zhuye(){
     }
     @RequestMapping("dingdanmingxi")
     public String dingdanmingxi(){
-        return "dingdanmingxi";
+        return "yiwanchengdingdan";
+    }
+    @ResponseBody
+    @RequestMapping("paidanren")
+    public Object paidanren(dingdan ding, Model model,baojieshi baojie){
+        int ss=dengluService.pqfwry(ding);
+        baojie.setC_id(ding.getC_id());
+        int dd=dengluService.bjszt(baojie);
+        if(ss>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+    @RequestMapping("selectdbcjxx")
+    @ResponseBody
+    public Object selectdbcjxx(PageVo pagevo, dingdan ding) {
+        int s = dengluService.selectbdcjs();
+        System.out.println(s);
+        List<dingdan> list = dengluService.selectdbjcxx(pagevo, ding);
+        System.out.println(list);
+        PageUtil pageutil = new PageUtil();
+        pageutil.setCount(s);
+        pageutil.setCode(0);
+        pageutil.setData(list);
+        pageutil.setMsg("");
+        return pageutil;
+    }
+    @RequestMapping("yiquxiaodingdan")
+    public String yiquxiaodingdan(){
+        return "yiquxiaodingdan";
+    }
+    @RequestMapping("selectdbqjxx")
+    @ResponseBody
+    public Object selectdbqjxx(PageVo pagevo, dingdan ding) {
+        int s = dengluService.selectbdqjs();
+        System.out.println(s);
+        List<dingdan> list = dengluService.selectdbjqxx(pagevo, ding);
+        for (dingdan dingdan : list) {
+            if(dingdan.getC_id()!=null){
+dingdan.setC_name(dengluService.selectbjsxm(dingdan.getC_id()));
+            }else {
+                dingdan.setC_name("尚未派单");
+            }
+        }
+        System.out.println(list);
+        PageUtil pageutil = new PageUtil();
+        pageutil.setCount(s);
+        pageutil.setCode(0);
+        pageutil.setData(list);
+        pageutil.setMsg("");
+        return pageutil;
+    }
+    @RequestMapping("chakanpingjia")
+    public String chakanpingjia(Integer c_id,Model model){
+        List<pingjia> zq=dengluService.selectpjxx(c_id);
+        int z=0;
+        int h=0;
+        int c=0;
+        for (pingjia pingjia : zq) {
+            if(pingjia.getE_ping()>3){
+                h++;
+            }else {
+                c++;
+            }
+            z++;
+        }
+        model.addAttribute("zong",z);
+        model.addAttribute("hao",h);
+        model.addAttribute("cha",c);
+        model.addAttribute("pingjia",zq);
+     return "chakanpingjia";
     }
 
+    @RequestMapping("bjsjin")
+    @ResponseBody
+    public Object bjsjin( baojieshi baojie) {
+        int ss=dengluService.bjsjin(baojie);
+        if(ss>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+    @RequestMapping("bjsqi")
+    @ResponseBody
+    public Object bjsqi( baojieshi baojie) {
+        int ss=dengluService.bjsqi(baojie);
+        if(ss>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+    @RequestMapping("bjsxiao")
+    @ResponseBody
+    public Object bjsxiao( baojieshi baojie) {
+        int ss=dengluService.bjsxiao(baojie);
+        if(ss>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+
+    @RequestMapping("selectygxx")
+    @ResponseBody
+    public Object selectygxx(PageVo pagevo, user user,HttpSession session) {
+        if (user.getU_name() != null && user.getU_name() != "") {
+            String sss = "%" + user.getU_name() + "%";
+            user.setU_name(sss);
+        } else {
+            user.setU_name("");
+        }
+        int ss= (int) session.getAttribute("zw");
+        user.setR_id(ss);
+        System.out.println(user.getU_name());
+        int s = dengluService.selectygs(user);
+        System.out.println(s);
+        List<user> list = dengluService.selectygxx(pagevo, user);
+        System.out.println(list);
+        PageUtil pageutil = new PageUtil();
+        pageutil.setCount(s);
+        pageutil.setCode(0);
+        pageutil.setData(list);
+        pageutil.setMsg("");
+        return pageutil;
+    }
+
+    @RequestMapping("ygjin")
+    @ResponseBody
+    public Object ygjin( user user) {
+        int ss=dengluService.ygjin(user);
+        if(ss>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+    @RequestMapping("ygqi")
+    @ResponseBody
+    public Object ygqi( user user) {
+        int ss=dengluService.ygqi(user);
+        if(ss>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+    @RequestMapping("ygxiao")
+    @ResponseBody
+    public Object ygxiao( user user) {
+        int ss=dengluService.ygxiao(user);
+        if(ss>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+
+    @RequestMapping("yuangongtianjia")
+    public String yuangongtianjia(){
+        return "yuangongtianjia";
+    }
+    @RequestMapping("zhiweiguanli")
+    public String zhiweiguanli(Integer u_id,Model model,HttpSession session){
+        List<user> list = dengluService.selectgygxx(u_id);
+        int ss= (int) session.getAttribute("zw");
+        List<user> list1=dengluService.selectgygzw(ss);
+        model.addAttribute("ygxx",list);
+        model.addAttribute("ygzw",list1);
+        return "zhiweiguanli";
+    }
+    @RequestMapping("xiugaigangwei")
+    @ResponseBody
+    public String xiugaigangwei(user user){
+        System.out.println(user);
+        if(5>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
 }

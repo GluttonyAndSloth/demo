@@ -56,8 +56,22 @@
                         },function(){
                             $(location).prop("href","cc");
                         });
-                    }else{
-                        layer.msg('登录失败',{
+                    }else if(data=='meiquan'){
+                        layer.msg('你的账户已禁用',{
+                            icon:2,
+                            time:2000
+                        },function(){
+
+                        });
+                    }else if(data=='mima'){
+                        layer.msg('登录失败,密码错误',{
+                            icon:2,
+                            time:2000
+                        },function(){
+
+                        });
+                    }else if(data=='name'){
+                        layer.msg('登录失败,该用户不存在',{
                             icon:2,
                             time:2000
                         },function(){
@@ -65,7 +79,7 @@
                         });
                     }
                 }
-            })
+            });
             return false;
         });
     });

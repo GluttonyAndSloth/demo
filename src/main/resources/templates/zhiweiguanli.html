@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ll</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./layui/layui.js"></script>
+    <script src="./js/jquery-1.8.3.min.js"></script>
+    <script src="./js/xadmin.js"></script>
+</head>
+<style type="text/css">
+    .layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
+        top: 50%;
+        transform: translateY(-50%);
+    }
+</style>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form" action="" th:each="y:${ygxx}">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">员工姓名</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="u_id" lay-verify="title"  class="layui-input" th:value="${y.u_id}" style="display: none;">
+                                <input type="text" name="u_name" lay-verify="title"  class="layui-input" th:value="${y.u_name}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">员工年龄</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="u_age" lay-verify="required" class="layui-input" th:value="${y.u_age}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">性别</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="u_sex" lay-verify="required" class="layui-input" th:value="${y.u_sex}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">身份证号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="u_password" lay-verify="required" class="layui-input" th:value="${y.u_password}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">地址</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="u_address" lay-verify="required" class="layui-input" th:value="${y.u_address}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">员工状态</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="u_status" lay-verify="required" class="layui-input" th:value="${y.u_status}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">员工当前职位</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="yr_name" lay-verify="required" class="layui-input" th:value="${y.r_name}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">请选择你要更改的职位</label>
+                            <div class="layui-input-block" th:each="x:${ygzw}" th:switch="${x.r_id==y.r_id}">
+                                <input th:case="true" type="radio" name="r_name" th:value="${x.r_name}" th:title="${x.r_name}"  checked="">
+                                <input th:case="false" type="radio" name="r_name" th:value="${x.r_name}" th:title="${x.r_name}">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['form','layer','element'], function(){
+        var form = layui.form,
+            layer=layui.layer,
+            element=layui.element;
+        form.on('submit(demo1)', function(data){
+            $.ajax({
+                url:"xiugaigangwei",
+                data:data.field,
+                type:"post",
+                success:function(data){
+                    alert(data);
+
+
+                },
+                error:function(){
+
+                }
+            })
+            return false;
+        });
+    });
+</script>
+</html>

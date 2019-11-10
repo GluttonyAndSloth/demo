@@ -42,10 +42,11 @@
         //方法级渲染
         table.render({
             elem: '#LAY_table_user'
-            ,url: 'selectdbjxx'
+            ,url: 'selectdbqjxx'
             ,cols: [ [
-                {field:'o_id', title: '订单号', width:120,unresize: true}
+                {field:'o_id', title: '订单号', width:100,unresize: true}
                 ,{field:'o_name', title: '服务名称', width:90,unresize: true}
+                ,{field:'c_xiadantime', title: '下单时间', width:120,unresize: true}
                 ,{field:'o_time', title: '服务时间', width:120,unresize: true}
                 ,{field:'o_address', title: '服务地址', width:120,unresize: true}
                 ,{field:'o_phone', title: '联系人手机', width:135,unresize: true}
@@ -63,6 +64,7 @@
             }
             ,height: 300
         });
+
 
     });
 </script>

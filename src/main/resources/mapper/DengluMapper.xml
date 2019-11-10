@@ -3,13 +3,15 @@
         "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.home.demo.mapper.DengluMapper">
     <select id="selectuser" parameterType="String" resultType="com.home.demo.entity.user">
-        select * from t_user where u_name=#{u_name}
+        select * from t_user u,t_role r,t_user_role ur where 1=1 and u.u_id=ur.userid and ur.roleid=r.r_id and u_name=#{u_name}
     </select>
     <select id="selectzq" resultType="com.home.demo.entity.quanxian">
-        select * from t_user u,t_role r,t_role_menu rm,t_user_role ur,t_menu m where u.u_id=ur.userid and r.r_id=ur.roleid and r.r_id=rm.roleid and rm.menuid=m.id and u.u_name=#{u_name} and m.pid=0
+        select * from t_user u,t_role r,t_role_menu rm,t_user_role ur,t_menu m where u.u_id=ur.userid and
+        r.r_id=ur.roleid and r.r_id=rm.roleid and rm.menuid=m.id and u.u_name=#{u_name} and m.pid=0
     </select>
     <select id="selectcq" resultType="com.home.demo.entity.quanxian">
-        select * from t_user u,t_role r,t_role_menu rm,t_user_role ur,t_menu m where u.u_id=ur.userid and r.r_id=ur.roleid and r.r_id=rm.roleid and rm.menuid=m.id and u.u_name=#{u_name} and m.pid!=0
+        select * from t_user u,t_role r,t_role_menu rm,t_user_role ur,t_menu m where u.u_id=ur.userid and
+        r.r_id=ur.roleid and r.r_id=rm.roleid and rm.menuid=m.id and u.u_name=#{u_name} and m.pid!=0
     </select>
     <select id="selectbjss" resultType="int"
             parameterType="map">
@@ -24,24 +26,25 @@
         <if test="c_name!=null and c_name!=''">
             and c_name like #{c_name}
         </if>
-         limit #{begin},#{end}
+        limit #{begin},#{end}
     </select>
-<!--    <update id="xgbjszt" parameterType="com.home.demo.entity.baojieshi">
-        UPDATE cleaner set c_status=#{c_status} where c_id=#{c_id}
-    </update>-->
+    <!--    <update id="xgbjszt" parameterType="com.home.demo.entity.baojieshi">
+            UPDATE cleaner set c_status=#{c_status} where c_id=#{c_id}
+        </update>-->
     <select id="selectbdws" resultType="int">
-        select count(*) from orders  where o_state='已付款' and o_paisong='未派送'
+        select count(*) from orders where o_state='已付款' and o_paisong='未派送'
     </select>
     <select id="selectdbwxx" resultType="com.home.demo.entity.dingdan"
             parameterType="map">
-        select * from orders  where o_state='已付款' and o_paisong='未派送' limit #{begin},#{end}
+        select * from orders where o_state='已付款' and o_paisong='未派送' limit #{begin},#{end}
     </select>
     <select id="selectbdjs" resultType="int">
-        select count(*) from orders  where o_state='已付款' and o_paisong='派送中'
+        select count(*) from orders o,cleaner c where o.o_state='已付款' and o.o_paisong='派送中' and o.c_id=c.c_id
     </select>
     <select id="selectdbjxx" resultType="com.home.demo.entity.dingdan"
             parameterType="map">
-        select * from orders  where o_state='已付款' and o_paisong='派送中' limit #{begin},#{end}
+        select * from orders o,cleaner c where o.o_state='已付款' and o.o_paisong='派送中' and o.c_id=c.c_id limit
+        #{begin},#{end}
     </select>
     <select id="selectfwrs" resultType="int"
             parameterType="map">
@@ -59,6 +62,87 @@
         limit #{begin},#{end}
     </select>
     <update id="pqfwry" parameterType="com.home.demo.entity.dingdan">
-        UPDATE orders set c_id=#{c_id} where o_id=#{o_id}
+        UPDATE orders set c_id=#{c_id},o_paisong='派送中' where o_id=#{o_id}
     </update>
+    <update id="bjszt" parameterType="com.home.demo.entity.baojieshi">
+        UPDATE cleaner set c_status='派送中' where c_id=#{c_id}
+    </update>
+    <select id="selectbdcjs" resultType="int">
+        select count(*) from orders o,cleaner c where o.o_state='已完成' and o.o_paisong='已完成' and o.c_id=c.c_id
+    </select>
+    <select id="selectdbjcxx" resultType="com.home.demo.entity.dingdan"
+            parameterType="map">
+        select * from orders o,cleaner c where o.o_state='已完成' and o.o_paisong='已完成' and o.c_id=c.c_id limit
+        #{begin},#{end}
+    </select>
+    <select id="selectbdqjs" resultType="int">
+        select count(*) from orders o where o.o_state='已取消' and o.o_paisong='已取消'
+    </select>
+    <select id="selectdbjqxx" resultType="com.home.demo.entity.dingdan"
+            parameterType="map">
+        select * from orders o where o.o_state='已取消' and o.o_paisong='已取消' limit #{begin},#{end}
+    </select>
+    <select id="selectbjsxm" resultType="String">
+        select c_name from cleaner where c_id=#{c_id}
+    </select>
+
+    <select id="selectpjxx" resultType="com.home.demo.entity.pingjia"
+            >
+        select * from evaluate where c_id=#{c_id}
+    </select>
+    <update id="bjsjin" parameterType="com.home.demo.entity.baojieshi">
+        UPDATE cleaner set c_status='禁用' where c_id=#{c_id}
+    </update>
+    <update id="bjsqi" parameterType="com.home.demo.entity.baojieshi">
+        UPDATE cleaner set c_status='正常' where c_id=#{c_id}
+    </update>
+    <update id="bjsxiao" parameterType="com.home.demo.entity.baojieshi">
+        UPDATE cleaner set c_status='正常' where c_id=#{c_id}
+    </update>
+
+    <select id="selectygs" resultType="int"
+            parameterType="map">
+        select count(*) from t_user u,t_role r,t_user_role ur where 1=1 and u.u_id=ur.userid and ur.roleid=r.r_id and r_name!='超级管理员'
+        <if test="r_id==2">
+            and r_name!='管理员'
+        </if>
+        <if test="u_name!=null and u_name!=''">
+            and u_name like #{u_name}
+        </if>
+    </select>
+    <select id="selectygxx" resultType="com.home.demo.entity.user"
+            parameterType="map">
+        select * from t_user u,t_role r,t_user_role ur where 1=1 and u.u_id=ur.userid and ur.roleid=r.r_id and r_name!='超级管理员'
+        <if test="r_id==2">
+            and r_name!='管理员'
+        </if>
+        <if test="u_name!=null and u_name!=''">
+            and u_name like #{u_name}
+        </if>
+        limit #{begin},#{end}
+    </select>
+
+    <update id="ygjin" parameterType="com.home.demo.entity.user">
+        UPDATE t_user set u_status='禁用' where u_id=#{u_id}
+    </update>
+    <update id="ygqi" parameterType="com.home.demo.entity.user">
+        UPDATE t_user set u_status='正常' where u_id=#{u_id}
+    </update>
+    <update id="ygxiao" parameterType="com.home.demo.entity.user">
+        UPDATE t_user set u_status='正常' where u_id=#{u_id}
+    </update>
+
+    <select id="selectgygxx" resultType="com.home.demo.entity.user">
+        select * from t_user u,t_role r,t_user_role ur where 1=1 and u.u_id=ur.userid and ur.roleid=r.r_id and u.u_id=#{u_id}
+    </select>
+    <select id="selectgygzw" resultType="com.home.demo.entity.user">
+        select * from t_role  where 1=1
+        <if test="r_id==2">
+            and r_id!=1
+        </if>
+    </select>
+
+    <update id="ygzwxg" parameterType="com.home.demo.entity.user">
+        UPDATE t_user_role set roleid=#{roleid} where userid=#{userid}
+</update>
 </mapper>

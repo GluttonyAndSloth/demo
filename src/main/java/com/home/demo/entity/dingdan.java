@@ -17,8 +17,9 @@ public class dingdan {
     private String o_pingjia;
     private Integer c_id;
     private Date c_xiadantime;
+    private String c_name;
 
-    public dingdan(Integer o_id, String o_name, Date o_time, String o_address, String o_phone, Integer o_price, Integer o_count, String o_state, Integer o_total, Integer id, String o_paisong, String o_pingjia, Integer c_id, Date c_xiadantime) {
+    public dingdan(Integer o_id, String o_name, Date o_time, String o_address, String o_phone, Integer o_price, Integer o_count, String o_state, Integer o_total, Integer id, String o_paisong, String o_pingjia, Integer c_id, Date c_xiadantime, String c_name) {
         this.o_id = o_id;
         this.o_name = o_name;
         this.o_time = o_time;
@@ -33,6 +34,7 @@ public class dingdan {
         this.o_pingjia = o_pingjia;
         this.c_id = c_id;
         this.c_xiadantime = c_xiadantime;
+        this.c_name = c_name;
     }
 
     public Integer getO_id() {
@@ -147,6 +149,14 @@ public class dingdan {
         this.c_xiadantime = c_xiadantime;
     }
 
+    public String getC_name() {
+        return c_name;
+    }
+
+    public void setC_name(String c_name) {
+        this.c_name = c_name;
+    }
+
     @Override
     public String toString() {
         return "dingdan{" +
@@ -164,6 +174,7 @@ public class dingdan {
                 ", o_pingjia='" + o_pingjia + '\'' +
                 ", c_id=" + c_id +
                 ", c_xiadantime=" + c_xiadantime +
+                ", c_name='" + c_name + '\'' +
                 '}';
     }
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ll</title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./layui/layui.js"></script>
+    <script src="./js/jquery-1.8.3.min.js"></script>
+    <script src="./js/xadmin.js"></script>
+</head>
+<style type="text/css">
+    .layui-table-cell .layui-form-checkbox[lay-skin="primary"]{
+        top: 50%;
+        transform: translateY(-50%);
+    }
+</style>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                        <legend th:text="共有+${zong}+条评价"></legend>
+                    </fieldset>
+                    <div class="layui-tab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this" th:text="好评（+${hao}+）">好评</li>
+                            <li th:text="差评（+${cha}+）">差评</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show">
+                                <div th:each="p:${pingjia}" th:if="${p.e_ping>3}">
+                                    <span th:text="${#dates.format(p.e_time, 'yyyy-MM-dd HH:mm:ss')}"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_person}"></span><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_info}"></span><br>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="layui-tab-item"> <div th:each="p:${pingjia}" th:if="${p.e_ping<=3}">
+                                <span th:text="${#dates.format(p.e_time, 'yyyy-MM-dd HH:mm:ss')}"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_person}"></span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_info}"></span>
+                                <br><hr>
+                            </div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['table','layer','element'], function(){
+        var table = layui.table,
+            layer=layui.layer,
+            element=layui.element;
+    });
+</script>
+</html>

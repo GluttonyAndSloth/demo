@@ -45,11 +45,13 @@
     var id=$("#id").text();
     alert(id);
     alert(dd);
-    layui.use(['table','form'], function(){
+    layui.use(['table','form','layer'], function(){
         var table = layui.table
-            ,form = layui.form;
+            ,form = layui.form,
+            layer=layui.layer;
 
         //方法级渲染
+        var index = parent.layer.getFrameIndex(window.name); //修改成功的时候点击 确定 会关闭子窗口，这里获取一下子窗口
 
         table.render({
             elem: '#LAY_table_user'
@@ -75,7 +77,30 @@
             var data = obj.data;
             if(obj.event === 'pai'){
                 var ddd=data.c_id;
-                alert(ddd);
+                $.ajax({
+                    url:"paidanren",
+                    data:{"c_id":ddd,"o_id":id},
+                    type:"post",
+                    success:function(data){
+                        alert(data);
+                        if(data=='dd'){
+                            layer.msg('派单成功',{
+                                icon:1,
+                                time:2000
+                            },function(){
+                                layer.close(layer.index);
+                                window.parent.location.reload();
+                            });
+                        }else{
+                            layer.msg('派单失败',{
+                                icon:2,
+                                time:2000
+                            },function(){
+
+                            });
+                        }
+                    }
+                })
 
             }
         });
