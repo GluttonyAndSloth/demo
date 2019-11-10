@@ -178,4 +178,8 @@ public int selectbdws() {
         // TODO Auto-generated method stub
         return dengluMapper.selectgygzw(r_id);
     }
+
+    public int ygzwxg(urlian urlian){
+        return dengluMapper.ygzwxg(urlian);
+    };
 }

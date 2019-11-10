@@ -354,9 +354,12 @@ dingdan.setC_name(dengluService.selectbjsxm(dingdan.getC_id()));
     }
     @RequestMapping("xiugaigangwei")
     @ResponseBody
-    public String xiugaigangwei(user user){
-        System.out.println(user);
-        if(5>0){
+    public String xiugaigangwei(user user,urlian urlian){
+        urlian.setUserid(user.getU_id());
+        urlian.setRoleid(user.getR_id());
+        int ss=dengluService.ygzwxg(urlian);
+        System.out.println(ss);
+        if(ss>0){
             return "dd";
         }else {
             return "ss";

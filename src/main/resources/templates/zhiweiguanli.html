@@ -75,8 +75,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">请选择你要更改的职位</label>
                             <div class="layui-input-block" th:each="x:${ygzw}" th:switch="${x.r_id==y.r_id}">
-                                <input th:case="true" type="radio" name="r_name" th:value="${x.r_name}" th:title="${x.r_name}"  checked="">
-                                <input th:case="false" type="radio" name="r_name" th:value="${x.r_name}" th:title="${x.r_name}">
+                                <input th:case="true" type="radio" name="r_id" th:value="${x.r_id}" th:title="${x.r_name}"  checked="">
+                                <input th:case="false" type="radio" name="r_id" th:value="${x.r_id}" th:title="${x.r_name}">
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -97,6 +97,9 @@
             layer=layui.layer,
             element=layui.element;
         form.on('submit(demo1)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
             $.ajax({
                 url:"xiugaigangwei",
                 data:data.field,

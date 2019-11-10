@@ -42,4 +42,6 @@ int selectbdws();
 
     List<user> selectgygxx(Integer u_id);
     List<user> selectgygzw(@Param("r_id") Integer r_id);
+
+    int ygzwxg(urlian urlian);
 }

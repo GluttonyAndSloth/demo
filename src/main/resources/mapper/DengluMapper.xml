@@ -142,7 +142,7 @@
         </if>
     </select>
 
-    <update id="ygzwxg" parameterType="com.home.demo.entity.user">
+    <update id="ygzwxg" parameterType="com.home.demo.entity.urlian">
         UPDATE t_user_role set roleid=#{roleid} where userid=#{userid}
 </update>
 </mapper>
