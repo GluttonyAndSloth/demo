@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.1.1.js"></script>
+    <title>服务范围管理</title>
+</head>
+<style>
+    *{margin: 0px;padding: 0px;}
+
+</style>
+<body>
+<div style="width: 100%;height:550px;background: white;">
+<table id="test" lay-filter="test"  style="margin-left: 20px;"></table>
+</div>
+<!-- 需要弹出的修改员工界面 -->
+<div id="update-main" style="display: none;margin-top:50px;">
+    <div class="my-form" style="margin-left:40px;" >
+        <form class="layui-form"  lay-filter="formTestFilter"  >
+
+            <div class="layui-form-item my-form-item" style="display: none;" >
+                <label class="layui-form-label layui-icon">&#xe770;</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="sf_id"   lay-verify="required" placeholder="请输入编号" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item my-form-item" >
+                <label class="layui-form-label layui-icon" style="">&#xe770;<span style="font-size: 14px;color:#341b51">服务名称</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="p_name"  readonly="readonly"  lay-verify="required" placeholder="请输入服务名称" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item my-form-item"  style="margin-top:30px;">
+                <label class="layui-form-label layui-icon">&#xe770;<span style="font-size: 14px;color:#341b51">服务范围</span></label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <textarea name="sf_name" cols="3" rows="3"   lay-verify="required" placeholder="请输入服务范围" autocomplete="off"
+                              class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item my-form-item" style="margin-top:30px;">
+                <div class="layui-input-block item">
+                    <button class="layui-btn" lay-submit=""  id="submit" lay-filter="demo">保存</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 需要弹出的添加范围界面 -->
+<div id="add-main" style="display: none;margin-top:30px;">
+    <div class="my-form" style="margin-left:50px;">
+        <form class="layui-form"  lay-filter="formTest">
+
+            <div class="layui-form-item my-form-item" >
+                <label class="layui-form-label layui-icon" style="">&#xe770;<span style="font-size: 14px;color:#341b51">服务名称</span></label>
+                <div class="layui-input-block" style="width: 200px;">
+                    <select name="p_name" id="sendQueueChannel" lay-verify="required">
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="layui-form-item my-form-item" >
+                <label class="layui-form-label layui-icon" style="">&#xe770;<span style="font-size: 14px;color:#341b51">服务范围</span></label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <textarea name="sf_name" cols="3" rows="3" id="sf_name"  lay-verify="required" placeholder="请输入服务范围" autocomplete="off"
+                              class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item my-form-item">
+                <div class="layui-input-block item">
+                    <button class="layui-btn" lay-submit=""  id="submitadd" lay-filter="demoadd">保存</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    $(function(){
+        all();
+    })
+    function all(){
+        layui.use(['table', 'layer'], function(){
+            var table = layui.table;
+            var layer = layui.layer;
+            var $ = layui.$;
+//第一个实例
+            table.render({
+                elem: '#test'
+                ,height: 500
+                ,toolbar: '#toolbarDemo'
+                ,url: '/springboot/fuwu/select' //数据接口
+                ,page: true //开启分页
+                ,cols: [
+                    [ //表头
+                        {field:'sf_id', width:120, title: '编号', sort: true}
+                        ,{field:'p_id',width:120, title: '编号'}
+                        ,{field:'p_name', width:280, title: '服务名称'}
+                        ,{field:'sf_name', width:280, title: '服务范围', sort: true}
+                        ,{
+                        width: 400,
+                        title: "操作",
+                        toolbar:barDemo
+                    }
+                    ]],
+                done:function(){
+                    $("[data-field='p_id']").css('display','none');
+                }
+            });
+            table.on('toolbar(test)',function(obj){
+                if(obj.event =='search'){
+                    $ = layui.jquery;
+                var p_name=$("#p_name").val();
+                    table.reload('test', {
+                        url: '/springboot/fuwu/select',    //换成自己的url
+                        where: {
+                            p_name: p_name,
+                        },
+                        page: {
+                            curr: 1
+                        }
+                    });
+                }else if(obj.event=='add'){
+                    var form = layui.form,
+                        layer = layui.layer,
+                        $ = layui.jquery;
+                    layer.open({
+                        title: '添加',
+                        /*如果是外部的html，type2，内部，type1*/
+                        type: 1,
+                        area: ['450px', '400px'],
+                        content: $("#add-main"),
+                    })
+                    ;
+                   add();
+
+                }
+
+            })
+            table.on('tool(test)',function(obj) {
+                var event = obj.event;
+                var data = obj.data;
+                var form = layui.form;
+                if (event == 'updatePrice') {
+                    // form.val("formTestFilter",data);
+                    layer.open({
+                        title: '修改',
+                        /*如果是外部的html，type2，内部，type1*/
+                        type: 1,
+                        area: ['450px', '400px'],
+                        content: $("#update-main"),
+                    })
+                    ;
+                    setFormValue(data);
+
+
+                }else if(event=='delete'){
+                    layer.confirm('真的要删除么',function (index){
+                        $.post('/springboot/fuwu/deleteFuwu',{
+                            sf_id:data.sf_id
+                        },function(res){
+                            if(res==true){
+                                layer.msg("删除成功");
+                                window.location.href="/springboot/fuwu/selectfuwu";
+                            }else{
+                                layer.msg("删除失败");
+                                window.location.href="/springboot/fuwu/selectfuwu";
+                            }
+                        })
+                    })
+                }
+            })
+        });
+    }
+</script>
+<script>
+    var pop;
+    function setForm(data){
+        pop=layui.form;
+        pop.val("formTest",{
+            "p_id":data.p_id,
+            "p_name":data.p_name,
+        });
+        pop.render(null,'formTest');
+    }
+</script>
+<script type="text/javascript">
+    var popForm;
+    function setFormValue(data){
+        popForm=layui.form;
+        popForm.val("formTestFilter",{
+        "sf_id":data.sf_id,
+        "p_name":data.p_name,
+        "sf_name":data.sf_name,
+    });
+    popForm.render(null,'formTestFilter');
+    }
+
+    $(function  () {
+        layui.use('form', function(){
+            var form = layui.form;
+            //监听提交
+            form.on('submit(demo)',function(data){
+                $.post("/springboot/fuwu/updateFuwu",data.field,function(res){
+                    layer.msg("修改");
+                    if(res==true){
+                        layer.closeAll();
+                        layer.msg("修改成功");
+                        all();
+                    }else{
+                        layer.msg("修改失败")
+                    }
+                },"json")
+
+            })
+
+            //监听提交
+            form.on('submit(demoadd)',function(data){
+                var p_name=$("#sendQueueChannel").val();
+                var sf_name=$("#sf_name").val();
+                alert(sf_name);
+               $.post("/springboot/fuwu/addFuwu",{p_name:p_name,sf_name:sf_name},function(res){
+                    layer.msg("添加");
+                    if(res==true){
+                        layer.closeAll();
+                        layer.msg("添加成功");
+                        all();
+                    }else{
+                        layer.msg("添加失败")
+                    }
+                },"json")
+
+            })
+
+        });
+    })
+</script>
+<script>
+    function add(){
+        $.ajax({
+            type: "POST",
+            dataType:"JSON",
+            url: "/springboot/fuwu/selectProject",
+            success: function (data) {
+               // alert(data);
+                $.each(data, function (index,item){
+                    //alert(index);
+                   //  alert(item);
+                    $("#sendQueueChannel").append(new Option(item.p_name));
+                });
+                layui.form.render("select");
+            },error: function () {
+                alert("查询失败")
+            }
+        })
+    }
+
+</script>
+<!--行内工具栏-->
+<script type="text/html" id="toolbarDemo">
+    <div>
+      <div class="layui-btn layui-btn-sm">
+            <span>服务名称&emsp;</span><input type="text" id="p_name" style="height:25px;width: 120px;" placeholder="请输入服务名称" name="p_name">
+        </div>
+        <button class="layui-btn layui-btn-sm layui-icon" lay-event="search">&#xe615;</button>
+        <button class="layui-btn layui-btn-sm layui-icon" lay-event="add">&#xe654;</button>
+    </div>
+
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-sm " lay-event="updatePrice">修改</a>
+    <a class="layui-btn layui-btn-sm " lay-event="delete">删除</a>
+</script>
+</html>

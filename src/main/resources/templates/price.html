@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+
+    <title>Title</title>
+</head>
+<style>
+    *{cursor: pointer;}
+
+</style>
+<body>
+<div  style="width: 100%;height:550px;background: white;position: relative;top: -10px;">
+<table id="test"  lay-filter="test"></table>
+</div>
+<!-- 需要弹出的修改价钱界面 -->
+<div id="update-main" style="display: none;margin-top:30px;">
+    <div class="my-form" style="margin-left:50px;">
+        <form class="layui-form"  lay-filter="formTestFilter"  >
+            <div class="layui-form-item my-form-item" style="display: none;" >
+                <label class="layui-form-label layui-icon">&#xe770;</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="pri_id"  id="pri_id" lay-verify="required" placeholder="请输入编号" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item my-form-item" >
+                <label class="layui-form-label layui-icon" style="">&#xe770;<span style="font-size: 14px;color:#341b51">服务名称</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="pri_name" readonly="readonly" id="pri_name" lay-verify="required" placeholder="请输入服务名称" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item my-form-item">
+                <label class="layui-form-label layui-icon">&#xe673;<span style="font-size: 14px;color:#341b51">服务价钱</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="pri_price"  lay-verify="number" id="pri_price" onkeyup="zero()"   maxlength="2"  placeholder="请输入价钱" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item my-form-item">
+                <label class="layui-form-label layui-icon">&#xe600;<span style="font-size: 14px;color:#341b51">价钱单位</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="pri_danwei" readonly="readonly"  lay-verify="required" placeholder="请输入单位" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item my-form-item">
+                <label class="layui-form-label layui-icon">&#xe600;<span style="font-size: 14px;color:#341b51">服务备注</span></label>
+                <div class="layui-input-inline">
+                    <input type="text" name="pri_bei"  lay-verify="required" placeholder="请输入备注" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item my-form-item">
+                <div class="layui-input-block item">
+                    <button class="layui-btn" lay-submit=""  id="submit" lay-filter="demo">保存</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<script>
+    $(function(){
+        all();
+    })
+    function zero(){
+        var pri_price=$("#pri_price").val();
+        if(pri_price=="0"){
+            layer.msg("不能为0");
+        }
+    }
+function all(){
+layui.use(['table', 'layer'], function(){
+var table = layui.table;
+var layer = layui.layer;
+var $ = layui.$;
+//第一个实例
+table.render({
+elem: '#test'
+,height: 500
+,toolbar: '#toolbarDemo'
+,url: '/springboot/price/select' //数据接口
+,page: true //开启分页
+,cols: [
+[ //表头
+{field:'pri_id', width:120, title: '价钱编号', sort: true}
+,{field:'pri_name', width:280, title: '服务名称'}
+,{field:'pri_price', width:280, title: '服务价钱', sort: true}
+,{field:'pri_danwei', width:280, title: '价钱单位'}
+,{field:'pri_bei', width:300, title: '服务备注'}
+,{
+width: 400,
+title: "操作",
+toolbar:barDemo
+}
+]]
+});
+
+    table.on('tool(test)',function(obj) {
+        var event = obj.event;
+        var data = obj.data;
+        var form = layui.form;
+        if (event == 'updatePrice') {
+            // form.val("formTestFilter",data);
+            layer.open({
+                title: '修改',
+                /*如果是外部的html，type2，内部，type1*/
+                type: 1,
+                area: ['450px', '400px'],
+                content: $("#update-main"),
+            })
+            ;
+            setFormValue(data);
+        }
+    })
+});
+}
+</script>
+<script type="text/javascript">
+    var popForm;
+    function setFormValue(data){
+        popForm=layui.form;
+        popForm.val("formTestFilter",{
+            "pri_id":data.pri_id,
+            "pri_name":data.pri_name,
+            "pri_price":data.pri_price,
+            "pri_danwei":data.pri_danwei,
+            "pri_bei":data.pri_bei
+        });
+        popForm.render(null,'formTestFilter');
+    }
+    $(function  () {
+        layui.use('form', function(){
+            var form = layui.form;
+            //监听提交
+            form.on('submit(demo)',function(data){
+                $.post("/springboot/price/updatePrice",data.field,function(res){
+                    layer.msg("修改");
+                    if(res==true){
+                        layer.closeAll();
+                        layer.msg("修改成功");
+                        all();
+                    }else{
+                        layer.msg("修改失败")
+                    }
+                },"json")
+
+            })
+        });
+    })
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-sm " lay-event="updatePrice">修改</a>
+</script>
+</html>

@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.demo.mapper.PriceMapper">
+    <select id="Selectpageprice" parameterType="map"
+            resultType="com.home.demo.entity.Price">
+        SELECT * FROM price
+        <where>
+            <if test="pri_id!=null and pri_id!=''">
+                and pri_id  like concat('%',#{pri_id},'%')
+            </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+    <select id="selectAllPriceCount" parameterType="map"
+            resultType="int">
+        select count(pri_id) from price
+        <where>
+            <if test="pri_id!=null and pri_id!=''">
+                and pri_id like concat('%',#{pri_id},'%')
+            </if>
+        </where>
+    </select>
+    <update id="updatePrice" parameterType="com.home.demo.entity.Price">
+        update price set pri_name=#{pri_name},pri_price=#{pri_price},pri_danwei=#{pri_danwei},pri_bei=#{pri_bei}  where pri_id=#{pri_id}
+    </update>
+</mapper>

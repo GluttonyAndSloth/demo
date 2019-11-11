@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.demo.mapper.FuwufanweiMapper">
+    <select id="Selectpagefuwu" parameterType="map"
+            resultType="com.home.demo.entity.Fuwufanwei">
+        SELECT * FROM servicefan s,project p where s.p_id=p.p_id
+            <if test="p_name!=null and p_name!=''">
+                and  p_name  like concat('%',#{p_name},'%')
+            </if>
+         limit #{page},#{limit}
+    </select>
+    <select id="selectAllFuwuCount" parameterType="map"
+            resultType="int">
+         SELECT count(sf_id) FROM servicefan s,project p where s.p_id=p.p_id
+        <if test="p_name!=null and p_name!=''">
+            and  p_name  like concat('%',#{p_name},'%')
+        </if>
+    </select>
+    <update id="updateFuwu" parameterType="com.home.demo.entity.Fuwufanwei">
+        update servicefan  set sf_name=#{sf_name} where sf_id=#{sf_id}
+    </update>
+    <update id="addFuwu" parameterType="com.home.demo.entity.Fuwufanwei">
+        insert  into servicefan(sf_name,p_id) values(#{param1},#{param2})
+    </update>
+    <delete id="delete" parameterType="com.home.demo.entity.Fuwufanwei">
+        delete   from servicefan where sf_id=#{sf_id}
+    </delete>
+    <select id="selectPro" resultType="com.home.demo.entity.Project" >
+        select * from project
+    </select>
+    <select id="selectProject" resultType="int" parameterType="String">
+        select p_id from project where p_name=#{p_name}
+    </select>
+</mapper>
