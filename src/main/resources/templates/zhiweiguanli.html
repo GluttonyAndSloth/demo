@@ -96,6 +96,7 @@
         var form = layui.form,
             layer=layui.layer,
             element=layui.element;
+        var index = parent.layer.getFrameIndex(window.name);
         form.on('submit(demo1)', function(data){
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
@@ -105,8 +106,23 @@
                 data:data.field,
                 type:"post",
                 success:function(data){
-                    alert(data);
-alert("ddd");
+                    if(data=='dd'){
+                        layer.msg('派单成功',{
+                            icon:1,
+                            time:2000
+                        },function(){
+                            layer.close(layer.index);
+                            window.parent.location.reload();
+                        });
+                    }else{
+                        layer.msg('派单失败',{
+                            icon:2,
+                            time:2000
+                        },function(){
+
+                        });
+                    }
+
 
                 },
                 error:function(){

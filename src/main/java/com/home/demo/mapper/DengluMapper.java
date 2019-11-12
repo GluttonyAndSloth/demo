@@ -44,4 +44,11 @@ int selectbdws();
     List<user> selectgygzw(@Param("r_id") Integer r_id);
 
     int ygzwxg(urlian urlian);
+
+    int tianjiayonghu(user user);
+    int tianjiayonghuzw(urlian urlian);
+    int selectgtjyg();
+
+    List<baojieshi> bjsid();
+    List<baojszd> bjsdzd(Integer c_id);
 }

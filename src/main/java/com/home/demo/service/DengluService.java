@@ -182,4 +182,23 @@ public int selectbdws() {
     public int ygzwxg(urlian urlian){
         return dengluMapper.ygzwxg(urlian);
     };
+
+    public int tianjiayonghu(user user){
+        return dengluMapper.tianjiayonghu(user);
+    };
+    public int tianjiayonghuzw(urlian urlian){
+        return dengluMapper.tianjiayonghuzw(urlian);
+    };
+    public int selectgtjyg(){
+        return dengluMapper.selectgtjyg();
+    };
+
+    public List<baojieshi> bjsid() {
+        // TODO Auto-generated method stub
+        return dengluMapper.bjsid();
+    }
+    public List<baojszd> bjsdzd(Integer c_id) {
+        // TODO Auto-generated method stub
+        return dengluMapper.bjsdzd(c_id);
+    }
 }

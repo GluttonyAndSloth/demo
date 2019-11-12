@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -340,7 +341,10 @@ dingdan.setC_name(dengluService.selectbjsxm(dingdan.getC_id()));
     }
 
     @RequestMapping("yuangongtianjia")
-    public String yuangongtianjia(){
+    public String yuangongtianjia(Model model,HttpSession session){
+        int ss= (int) session.getAttribute("zw");
+        List<user> list1=dengluService.selectgygzw(ss);
+        model.addAttribute("ygzw",list1);
         return "yuangongtianjia";
     }
     @RequestMapping("zhiweiguanli")
@@ -364,5 +368,49 @@ dingdan.setC_name(dengluService.selectbjsxm(dingdan.getC_id()));
         }else {
             return "ss";
         }
+    }
+    @RequestMapping("yonghutianjia")
+    @ResponseBody
+    public String yonghutianjia(user user,urlian urlian){
+        int ss=dengluService.tianjiayonghu(user);
+        int dc=dengluService.selectgtjyg();
+        urlian.setUserid(dc);
+        urlian.setRoleid(user.getR_id());
+        int dd=dengluService.tianjiayonghuzw(urlian);
+        System.out.println(ss);
+        if(ss>0&&dd>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+    @RequestMapping("baojieshizhangdan")
+    public String baojieshizhangdan(){
+        return "baojieshizhangdan";
+    }
+    @RequestMapping("zhangdanshengcheng")
+    public String zhangdanshengcheng(){
+        return "zhangdanshengcheng";
+    }
+
+    @RequestMapping("bjssyzd")
+    @ResponseBody
+    public Object bjssyzd(PageVo pagevo, baojieshi baojie,HttpSession session) {
+        List<baojieshi> bao=dengluService.bjsid();
+        List fff=new ArrayList();
+        int s=0;
+        for (baojieshi baojieshi : bao) {
+           List<baojszd> baozd=dengluService.bjsdzd(baojieshi.getC_id());
+           if(baozd==null){
+               fff.add(baojieshi);
+               s++;
+           }
+        }
+        PageUtil pageutil = new PageUtil();
+        pageutil.setCount(s);
+        pageutil.setCode(0);
+        pageutil.setData(fff);
+        pageutil.setMsg("");
+        return pageutil;
     }
 }

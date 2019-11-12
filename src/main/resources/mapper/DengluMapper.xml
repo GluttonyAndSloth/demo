@@ -15,14 +15,14 @@
     </select>
     <select id="selectbjss" resultType="int"
             parameterType="map">
-        select count(*) from cleaner where 1=1
+        select count(*) from cleaner where 1=1 and c_status!='离职'
         <if test="c_name!=null and c_name!=''">
             and c_name like #{c_name}
         </if>
     </select>
     <select id="selectbjsxx" resultType="com.home.demo.entity.baojieshi"
             parameterType="map">
-        select * from cleaner where 1=1
+        select * from cleaner where 1=1 and c_status!='离职'
         <if test="c_name!=null and c_name!=''">
             and c_name like #{c_name}
         </if>
@@ -145,4 +145,24 @@
     <update id="ygzwxg" parameterType="com.home.demo.entity.urlian">
         UPDATE t_user_role set roleid=#{roleid} where userid=#{userid}
 </update>
+
+    <insert id="tianjiayonghu" parameterType="com.home.demo.entity.user">
+        INSERT INTO t_user(u_name,u_password,u_sex,u_age,u_img,u_address,u_status) VALUES(#{u_name},#{u_password},#{u_sex},#{u_age},#{u_img},#{u_address},'正常');
+    </insert>
+    <select id="selectgtjyg" resultType="int">
+        SELECT u_id from t_user order by u_id desc LIMIT 0,1;
+    </select>
+    <insert id="tianjiayonghuzw" parameterType="com.home.demo.entity.urlian">
+        INSERT INTO t_user_role(roleid,userid) VALUES(#{roleid},#{userid})
+    </insert>
+
+    <select id="bjsid" resultType="com.home.demo.entity.baojieshi">
+        select * from (select c.*,l.l_tijiao from cleaner c left join lizhi l
+        on  PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( l.l_tijiao, '%Y%m' ) ) =1
+        and c.c_id = l.c_id
+        and l.l_zhuangtai='审核通过' ) g where (g.c_status='离职' and g.l_tijiao IS NOT NULL) or (g.c_status!='离职')
+    </select>
+    <select id="bjsdzd" resultType="com.home.demo.entity.baojszd">
+        SELECT * FROM bjszd WHERE DATE_FORMAT( y_czsj, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' ) and c_id=#{c_id}
+    </select>
 </mapper>
