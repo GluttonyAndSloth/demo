@@ -3,6 +3,7 @@ package com.home.demo.mapper;
 
 import com.home.demo.entity.Fuwufanwei;
 import com.home.demo.entity.Project;
+import com.home.demo.entity.user;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -24,5 +25,6 @@ public interface FuwufanweiMapper {
     public boolean delete(Fuwufanwei fuwufanwei);
     //查询所有服务名称
     public List<Project> selectPro();
-
+    List<user> finduser(String u_name);
+public boolean updateuser(user user);
 }

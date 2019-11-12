@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+    <script src="./js/jquery-1.8.3.min.js"></script>
+</head>
+<style>
+    table{margin-top: 20px;}
+    table input{margin-left:10px;width:230px;height:34px;border-radius: 4%;border: 1px solid black;}
+    .td1{width: 160px;
+        height: 50px;font-size: 16px;text-align: right;}
+    .td2{width: 230px;text-align: left;height:50px;}
+    #edit{height: 40px;width:100px;margin-top: 30px;position: relative;margin-left: 70px;}
+    #cancel{height: 40px;width:100px;margin-top: 30px;position: relative;margin-left: 30px;}
+</style>
+<body>
+
+<div >
+
+    <form action="/springboot/fuwu/updateuser" type="post">
+    <table th:each="list:${list}">
+        <tr style="display: none;">
+            <td class="td1">用户id:&emsp;</td><td class="td2"><input  readonly="readonly" name="u_id"  th:value="${list.u_id}"/></td>
+        </tr>
+        <tr>
+            <td class="td1">用户名称:&emsp;</td><td class="td2"><input readonly="readonly"  name="u_name"  th:value="${list.u_name}"/></td>
+        </tr>
+        <tr>
+            <td class="td1">用户密码:&emsp;</td><td class="td2"><input name="u_password" th:value="${list.u_password}" /></td>
+        </tr>
+        <tr>
+            <td class="td1">用户性别:&emsp;</td><td class="td2"><input readonly="readonly" name="u_sex" th:value="${list.u_sex}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td class="td1">用户年龄:&emsp;</td><td class="td2"><input readonly="readonly" name="u_age" th:value="${list.u_age}" /></td>
+        </tr>
+
+        <tr>
+            <td class="td1">用户地址:&emsp;</td><td class="td2"><input  name="u_address" th:value="${list.u_address}"/></td>
+        </tr>
+        <tr>
+            <td  colspan="2"><button id="edit" >编辑</button><button id="cancel">取消</button></td>
+        </tr>
+
+    </table>
+    </form>
+</div>
+
+</body>
+<script>
+    $("input").focus(function(){
+        $(this).css("border","1px solid blue");
+    })
+    $("input").blur(function(){
+        $(this).css("border","1px solid black");
+    })
+    $("#edit").click(function(){
+        $("form").submit(function(e){
+            if(e==true){
+                window.href.location="";
+            }
+        })
+    })
+</script>
+</html>

@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.demo.mapper.LiZhiShenHeMapper">
+    <select id="select" parameterType="map" resultType="com.home.demo.entity.LiZhiShenHe">
+    SELECT l.l_id,l.l_name,l.l_jieshu,l.l_yuanyin,l.l_liyou,l.l_zhuangtai,l.l_tijiao,c.c_id FROM
+    lizhi l,cleaner c where l.l_zhuangtai='待审核' and l.c_id=c.c_id and c.c_status!="派送中" limit #{page},#{limit}
+</select>
+    <select id="select1" parameterType="map"
+            resultType="int">
+        select count(l_id) from lizhi
+    </select>
+    <update id="update" parameterType="com.home.demo.entity.LiZhiShenHe">
+        update lizhi set l_zhuangtai="审核通过" where l_id=#{l_id}
+    </update>
+    <update id="update1" parameterType="com.home.demo.entity.LiZhiShenHe">
+        update lizhi set l_zhuangtai="审核未通过" where l_id=#{l_id}
+    </update>
+    <update id="update2" parameterType="com.home.demo.entity.LiZhiShenHe">
+        update cleaner set c_status="离职" where c_id=#{c_id}
+    </update>
+</mapper>

@@ -33,4 +33,10 @@
     <select id="selectProject" resultType="int" parameterType="String">
         select p_id from project where p_name=#{p_name}
     </select>
+    <select id="finduser" resultType="com.home.demo.entity.user" parameterType="String">
+        select * from t_user where u_name=#{u_name}
+    </select>
+    <update id="updateuser" parameterType="com.home.demo.entity.user">
+        update t_user  set u_name=#{u_name},u_password=#{u_password},u_sex=#{u_sex},u_age=#{u_age},u_address=#{u_address} where u_id=#{u_id}
+    </update>
 </mapper>

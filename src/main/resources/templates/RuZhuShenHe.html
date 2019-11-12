@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-3.1.1.js"></script>
+    <script src="../layui/layui.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+<div>
+    <table id="test" lay-filter="test"></table>
+    <div id="bohui" style="display: none;">
+        <div class="my-form">
+            <form class="layui-form"  lay-filter="formTestFilter"  lay-skin="line">
+                <div class="layui-form-item my-form-item" style="display: none">
+                    <label class="layui-form-label layui-icon">&#xe770;</label>
+                    <div class="layui-input-inline">
+                       <input type="text" id="id" name="id" lay-verify="required" placeholder="请输入驳回理由" autocomplete="off"
+                                 class="layui-input"
+                                 >
+                    </div>
+                </div>
+                <div class="layui-form-item my-form-item" style="display: none">
+                    <label class="layui-form-label layui-icon">&#xe770;</label>
+                    <div class="layui-input-inline">
+                       <input type="text" id="r_id" name="r_id"  lay-verify="required" placeholder="请输入驳回理由" autocomplete="off"
+                                 class="layui-input"
+                                 style="display: none">
+                    </div>
+                </div>
+                <div class="layui-form-item my-form-item">
+                    <label class="layui-form-label layui-icon">&#xe770;</label>
+                    <div class="layui-input-inline">
+                       <textarea id="liyou" name="b_liyou" rows="5" cols="20" lay-verify="required" placeholder="请输入驳回理由" autocomplete="off"
+                                 class="layui-input"
+                       style="height: 100px;width: 200px;"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item my-form-item">
+                    <div class="layui-input-block item">
+                        <button class="layui-btn" lay-submit="" lay-filter="demo1" id="submit1">确定</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#test'
+            ,height: 300
+            ,url: '/springboot/ruzhu/select' //数据接口
+            ,page: true //开启分页
+            ,cols: [
+                [ //表头
+                    {field:'r_id', width:80, title: '编号', sort: true}
+                    ,{field:'s_name', width:170, title: '姓名'}
+                    ,{field:'id', width:1, title: '用户编号'}
+                    ,{field:'s_number', width:170, title: '身份证号'}
+                    ,{field:'r_biaoti', width:170, title: '标题'}
+                    ,{field:'r_liucheng', width:170, title: '流程'}
+                    ,{field:'r_xiangmu', width:170, title: '项目'}
+                    ,{field:'r_price', width:170, title: '价格'}
+                    ,{field:'r_jijia', width:170, title: '计价类型'}
+                    ,{field:'r_beizhu', width:170, title: '备注'}
+                    ,{field:'r_shenhe', width:170, title: '状态'}
+                    ,{
+                    width: 295,
+                    title: "操作",
+                    toolbar: "#barDemo"
+                }
+                ]
+            ],
+            done: function () {
+                $("[data-field='id']").css('display','none');
+            }
+        });
+        table.on('tool(test)',function(obj){
+            var event=obj.event;
+            var data=obj.data;
+            var form = layui.form;
+            if(event=='tongguo'){
+                $.post('/springboot/ruzhu/update',{
+                    r_id:data.r_id
+                },function(res){
+                    if(res==true){
+
+                        window.location.href="/springboot/ruzhu/ss";
+                    }
+
+                })
+
+            }else if(event=='bohui'){
+
+                layer.open({
+                    title: '驳回',
+                    /*如果是外部的html，type2，内部，type1*/
+                    type: 1,
+                    area: ['400px', '340px'],
+                    content: $("#bohui").html(),
+
+                } )
+                ;
+                sf(data);
+
+
+            }
+
+
+        })
+
+    });
+    $(function  () {
+        layui.use('form', function(){
+
+            var form = layui.form;
+            //监听提交
+            form.on('submit(demo1)',function(data){
+                layer.msg(data.r_id);
+                $.post("/springboot/ruzhu/addupdate",data.field,
+                    function (res) {
+
+                        if(res==true){
+                            layer.closeAll();
+                        }
+
+                    },"json")
+            })
+
+        });
+    })
+</script>
+<script>
+    var popForm;
+    function sf(data){
+        popForm=layui.form;
+        popForm.val("formTestFilter",{
+            "id":data.id,
+            "r_id":data.r_id,
+
+        });
+        popForm.render(null,'formTestFilter');
+    }
+</script>
+<script type="ShenHe/html" id="barDemo">
+    <a class="layui-btn layui-btn-sm " lay-event="tongguo">通过</a>
+    <a class="layui-btn layui-btn-sm " lay-event="bohui">驳回</a>
+</script>
+</html>

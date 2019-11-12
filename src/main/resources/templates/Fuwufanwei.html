@@ -78,7 +78,6 @@
             <div class="layui-form-item my-form-item">
                 <div class="layui-input-block item">
                     <button class="layui-btn" lay-submit=""  id="submitadd" lay-filter="demoadd">保存</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
         </form>
@@ -228,9 +227,9 @@
             form.on('submit(demoadd)',function(data){
                 var p_name=$("#sendQueueChannel").val();
                 var sf_name=$("#sf_name").val();
-                alert(sf_name);
+
                $.post("/springboot/fuwu/addFuwu",{p_name:p_name,sf_name:sf_name},function(res){
-                    layer.msg("添加");
+
                     if(res==true){
                         layer.closeAll();
                         layer.msg("添加成功");

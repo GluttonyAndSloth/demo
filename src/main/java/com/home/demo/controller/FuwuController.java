@@ -3,6 +3,7 @@ package com.home.demo.controller;
 
 import com.home.demo.entity.Fuwufanwei;
 import com.home.demo.entity.Project;
+import com.home.demo.entity.user;
 import com.home.demo.service.FuwuService;
 import com.home.demo.util.FenyeResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import java.util.Map;
 public class FuwuController {
     @Autowired
     private FuwuService fuwuService;
+
     @RequestMapping("/select")
     @ResponseBody
     public Map<String,Object> select(Integer page, Integer limit, Fuwufanwei fuwufanwei){
@@ -35,6 +38,10 @@ public class FuwuController {
     @RequestMapping("selectfuwu")
     public String tiaoyiao(){
         return "fuwufanwei";
+    }
+    @RequestMapping("gerenxinxi")
+    public String gerenxinxi(){
+        return "gerenxinxi";
     }
     @RequestMapping("updateFuwu")
     @ResponseBody
@@ -64,6 +71,11 @@ public class FuwuController {
         //System.out.println(list);
         return  list;
     }
-
+    @RequestMapping("updateuser")
+    @ResponseBody
+    public Boolean updateuser(user user){
+        fuwuService.updateuser(user);
+        return true;
+    }
 
 }

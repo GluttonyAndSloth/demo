@@ -58,7 +58,7 @@
             <div class="layui-form-item my-form-item">
                 <div class="layui-input-block item">
                     <button class="layui-btn" lay-submit=""  id="submit" lay-filter="demo">保存</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+
                 </div>
             </div>
         </form>
@@ -92,12 +92,12 @@ elem: '#test'
 ,cols: [
 [ //表头
 {field:'pri_id', width:120, title: '价钱编号', sort: true}
-,{field:'pri_name', width:280, title: '服务名称'}
-,{field:'pri_price', width:280, title: '服务价钱', sort: true}
-,{field:'pri_danwei', width:280, title: '价钱单位'}
-,{field:'pri_bei', width:300, title: '服务备注'}
+,{field:'pri_name', width:220, title: '服务名称'}
+,{field:'pri_price', width:220, title: '服务价钱', sort: true}
+,{field:'pri_danwei', width:220, title: '价钱单位'}
+,{field:'pri_bei', width:220, title: '服务备注'}
 ,{
-width: 400,
+width: 220,
 title: "操作",
 toolbar:barDemo
 }
@@ -137,13 +137,12 @@ toolbar:barDemo
         });
         popForm.render(null,'formTestFilter');
     }
-    $(function  () {
+
         layui.use('form', function(){
             var form = layui.form;
             //监听提交
             form.on('submit(demo)',function(data){
                 $.post("/springboot/price/updatePrice",data.field,function(res){
-                    layer.msg("修改");
                     if(res==true){
                         layer.closeAll();
                         layer.msg("修改成功");
@@ -155,7 +154,7 @@ toolbar:barDemo
 
             })
         });
-    })
+
 </script>
 
 <script type="text/html" id="barDemo">

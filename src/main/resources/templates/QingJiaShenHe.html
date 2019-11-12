@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery-3.1.1.js"></script>
+    <script src="../layui/layui.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body>
+<table id="test" lay-filter="test"></table>
+</body>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        //第一个实例
+        table.render({
+            elem: '#test'
+            ,height: 300
+            ,url: '/springboot/qingjia/select' //数据接口
+            ,page: true //开启分页
+            ,cols: [
+                [ //表头
+                    {field:'q_id', width:80, title: '编号', sort: true}
+                    ,{field:'c_name', width:200, title: '姓名'}
+                    ,{field:'c_id', width:1, title: '用户编号'}
+                    ,{field:'q_leixing', width:200, title: '请假类型'}
+                    ,{field:'q_kaishi', width:200, title: '开始时间'}
+                    ,{field:'q_jieshu', width:200, title: '结束时间'}
+                    ,{field:'q_shichang', width:200, title: '请假时长'}
+                    ,{field:'q_liyou', width:200, title: '请假理由'}
+                    ,{field:'q_zhuangtai', width:200, title: '状态'}
+                    ,{field:'q_tijiaoshijian', width:200, title: '提交时间'}
+                    ,{
+                    width: 200,
+                    title: "操作",
+                    toolbar: "#barDemo"
+                }
+                ]
+            ],
+            done: function () {
+                $("[data-field='c_id']").css('display','none');
+            }
+        });
+        table.on('tool(test)',function(obj){
+            var event=obj.event;
+            var data=obj.data;
+            var form = layui.form;
+            var kaishi=data.q_kaishi;
+            var tijiao=data.q_tijiaoshijian;
+            if(event=='tongguo'){
+                if(kaishi==tijiao) {
+                    $.post('/springboot/qingjia/update', {
+                        q_id: data.q_id,
+                        c_id: data.c_id
+                    }, function (res) {
+                        if (res == true) {
+                            window.location.href = "/springboot/qingjia/ss";
+                        }
+                    })
+                }
+                else {
+                    $.post('/springboot/qingjia/update2', {
+                        q_id: data.q_id
+                    }, function (res) {
+                        if (res == true) {
+                            window.location.href = "/springboot/qingjia/ss";
+                        }
+                    })
+                }
+            } if(event=='bohui'){
+                $.post('/springboot/qingjia/update1',{
+                    q_id:data.q_id
+                },function(res){
+                    if(res==true){
+                        window.location.href="/springboot/qingjia/ss";
+                    }
+                })
+                ;
+            }
+        })
+    });
+</script>
+<script type="ShenHe/html" id="barDemo">
+    <a class="layui-btn layui-btn-sm " lay-event="tongguo">通过</a>
+    <a class="layui-btn layui-btn-sm " lay-event="bohui">驳回</a>
+</script>
+</html>

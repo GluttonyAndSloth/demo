@@ -3,6 +3,7 @@ package com.home.demo.service;
 
 import com.home.demo.entity.Fuwufanwei;
 import com.home.demo.entity.Project;
+import com.home.demo.entity.user;
 import com.home.demo.mapper.FuwufanweiMapper;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +33,6 @@ public class FuwuService {
     public Integer selectProject(String p_name){return fuwufanweiMapper.selectProject(p_name);}
     public boolean delete(Fuwufanwei fuwufanwei){return fuwufanweiMapper.delete(fuwufanwei);}
     public List<Project> selectPro(){return  fuwufanweiMapper.selectPro();}
+   public  List<user> finduser(String u_name){return fuwufanweiMapper.finduser(u_name);};
+    public boolean updateuser(user user){return  fuwufanweiMapper.updateuser(user);}
 }

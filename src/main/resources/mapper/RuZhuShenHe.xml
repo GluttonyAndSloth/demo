@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.demo.mapper.RuZhuShenHeMapper">
+<select id="select" parameterType="map" resultType="com.home.demo.entity.RuZhuShenHe">
+    SELECT r.r_id,r.r_biaoti,r.r_liucheng,r.r_xiangmu,r.id,r.r_price,r.r_jijia,r.r_beizhu,r.r_shenhe,s.s_name,s.s_number FROM
+    ruzhu r,shiming s where r.r_shenhe='待审核' and r.r_id=s.r_id limit #{page},#{limit}
+</select>
+    <select id="select1" parameterType="map"
+            resultType="int">
+        select count(r_id) from ruzhu
+    </select>
+    <update id="update" parameterType="com.home.demo.entity.RuZhuShenHe">
+        update ruzhu set r_shenhe="已通过" where r_id=#{r_id}
+    </update>
+    <update id="addupdate" parameterType="com.home.demo.entity.RuZhuShenHe">
+        update ruzhu set r_shenhe="已驳回" where r_id=#{r_id}
+    </update>
+    <insert id="add" parameterType="com.home.demo.entity.RuZhuShenHe">
+        insert into bohui(b_liyou,id,r_id) values (#{b_liyou},#{id},#{r_id})
+    </insert>
+</mapper>
