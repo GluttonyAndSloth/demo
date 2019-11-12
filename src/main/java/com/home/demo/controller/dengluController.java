@@ -2,6 +2,7 @@ package com.home.demo.controller;
 
 import com.home.demo.entity.*;
 import com.home.demo.service.DengluService;
+import com.home.demo.service.FuwuService;
 import com.home.demo.util.PageUtil;
 import com.home.demo.util.PageVo;
 import org.apache.shiro.SecurityUtils;
@@ -23,6 +24,8 @@ import java.util.List;
 public class dengluController {
     @Resource
     DengluService dengluService;
+    @Resource
+    FuwuService fuwuService;
 @RequestMapping("denglu")
     public String denlu(){
     return "denglu";
@@ -51,6 +54,14 @@ public class dengluController {
 
             return "name";
         }
+    }
+    @RequestMapping("finduser")
+    public String finduser(HttpSession session,Model model){
+        String u_name=(String) session.getAttribute("nnn");
+
+        List<user> list= fuwuService.finduser(u_name);
+        model.addAttribute("list",list);
+        return "gerenxinxi";
     }
     @RequestMapping("shouye")
     public String shouye(){
