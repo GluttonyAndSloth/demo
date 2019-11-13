@@ -19,34 +19,35 @@
 <body>
 
 <div >
-
-    <form action="/springboot/fuwu/updateuser" type="post">
     <table th:each="list:${list}">
+        <tr >
+            <td class="td1">用户头像:&emsp;</td><td class="td2"> <img src="./img/login_bg.png" width="50px;" height="50px;" style="margin-left: 10px;"></td>
+        </tr>
         <tr style="display: none;">
-            <td class="td1">用户id:&emsp;</td><td class="td2"><input  readonly="readonly" name="u_id"  th:value="${list.u_id}"/></td>
+            <td class="td1">用户id:&emsp;</td><td class="td2"><input id="u_id" readonly="readonly" name="u_id"  th:value="${list.u_id}"/></td>
         </tr>
         <tr>
-            <td class="td1">用户名称:&emsp;</td><td class="td2"><input readonly="readonly"  name="u_name"  th:value="${list.u_name}"/></td>
+            <td class="td1">用户名称:&emsp;</td><td class="td2"><input id="u_name" readonly="readonly"  name="u_name"  th:value="${list.u_name}"/></td>
         </tr>
         <tr>
-            <td class="td1">用户密码:&emsp;</td><td class="td2"><input name="u_password" th:value="${list.u_password}" /></td>
+            <td class="td1">用户密码:&emsp;</td><td class="td2"><input id="u_password" readonly="readonly" name="u_password" th:value="${list.u_password}" /></td>
         </tr>
         <tr>
-            <td class="td1">用户性别:&emsp;</td><td class="td2"><input readonly="readonly" name="u_sex" th:value="${list.u_sex}" readonly="readonly"/></td>
+            <td class="td1">用户性别:&emsp;</td><td class="td2"><input id="u_sex" readonly="readonly" name="u_sex" th:value="${list.u_sex}" /></td>
         </tr>
         <tr>
-            <td class="td1">用户年龄:&emsp;</td><td class="td2"><input readonly="readonly" name="u_age" th:value="${list.u_age}" /></td>
+            <td class="td1">用户年龄:&emsp;</td><td class="td2"><input id="u_age" readonly="readonly" name="u_age" th:value="${list.u_age}" /></td>
         </tr>
 
         <tr>
-            <td class="td1">用户地址:&emsp;</td><td class="td2"><input  name="u_address" th:value="${list.u_address}"/></td>
+            <td class="td1">用户地址:&emsp;</td><td class="td2"><input id="u_address" name="u_address" th:value="${list.u_address}"/></td>
         </tr>
         <tr>
             <td  colspan="2"><button id="edit" >编辑</button><button id="cancel">取消</button></td>
         </tr>
 
     </table>
-    </form>
+
 </div>
 
 </body>
@@ -58,11 +59,25 @@
         $(this).css("border","1px solid black");
     })
     $("#edit").click(function(){
-        $("form").submit(function(e){
-            if(e==true){
-                window.href.location="";
-            }
-        })
+        var u_id=$("#u_id").val();
+        var u_name=$("#u_name").val();
+        var u_password=$("#u_password").val();
+        var u_sex=$("#u_sex").val();
+        var u_age=$("#u_age").val();
+        var u_address=$("#u_address").val();
+        $.ajax({
+           url:"/springboot/fuwu/updateuser",
+            data:{"u_id":u_id,"u_name":u_name,"u_password":u_password,"u_sex":u_sex,"u_age":u_age,"u_address":u_address},
+            type:"post",
+            success:function(data){
+                alert(data);
+                if(data==true){
+                    alert("成功了");
+                    parent.location.reload();
+                }
+        }
+        } )
+
     })
 </script>
 </html>

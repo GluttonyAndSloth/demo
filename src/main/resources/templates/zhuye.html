@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <base href="<%=basePath%>">
 
@@ -14,6 +14,69 @@
         .layui-table-cell .layui-form-checkbox[lay-skin="primary"] {
             top: 50%;
             transform: translateY(-50%);
+        }
+
+        .d1{
+            width: 300px;
+            height: 150px;
+            float: left;
+            margin-left: 50px;
+            margin-top: 50px;
+            border-radius: 7%;
+        }
+        #d1{
+            background-color: #40AFFE;
+
+        }
+        #d2{
+            background: gold;
+        }
+        #d3{
+            background: #20ffe4;
+        }
+        #d4{
+            background: #FF5722;
+        }
+        #d5{
+            width: 700px;
+            height: 350px;
+            margin-top: 260px;
+            margin-left: 50px;
+        }
+        p{
+            margin: 0px;
+            padding: 0px;
+        }
+        .p1{
+            font-size: 25px;
+            color: white;
+            padding-left: 30px;
+            margin-top: 10px;
+        }
+        .p2{
+            font-size: 60px;
+            color: white;
+            margin-top: 20px;
+            padding-left: 30px;
+            font-weight: bold;
+        }
+        .p3{
+            font-size: 25px;
+            color: white;
+            margin-top: 20px;
+            padding-left: 30px;
+        }
+        #s1{
+            color: black;
+            margin-left: 50px;
+            font-size: 20px;
+        }
+        #times{
+            color: black;
+            font-size: 20px;
+        }
+        #da{
+            margin-top: 20px;
         }
     </style>
     <link rel="stylesheet" href="./css/font.css">
@@ -30,14 +93,45 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-
+                    <div>
+                        <div id="da"><span id="s1">当前时间：</span><span id="times"></span></div>
+                        <div>
+                            <div class="d1" id="d1">
+                                <p class="p1">现有员工</p>
+                                <p class="p2" th:text="${y}"></p>
+                                <p class="p3">(名)</p>
+                            </div>
+                            <div class="d1" id="d2">
+                                <p class="p1">总保洁师</p>
+                                <p class="p2" th:text="${b}"></p>
+                                <p class="p3">(名)</p>
+                            </div>
+                            <div class="d1" id="d3">
+                                <p class="p1">订单数</p>
+                                <p class="p2" th:text="${d}"></p>
+                                <p class="p3">(份)</p>
+                            </div>
+                            <div class="d1" id="d4">
+                                <p class="p1">服务项目数</p>
+                                <p class="p2" th:text="${f}"></p>
+                                <p class="p3">(项)</p>
+                            </div>
+                        </div>
+                        <div id="d5"><img src="img/bb.png" height="300" width="1350"/></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 </body>
-<script>
-
+<script type="text/javascript">
+    function  getD1(){
+        var date=new Date();
+        var d1=date.toLocaleString();
+        var div1=document.getElementById("times");
+        div1.innerHTML =d1;
+    }
+    setInterval("getD1();",1000);
 </script>
 </html>
