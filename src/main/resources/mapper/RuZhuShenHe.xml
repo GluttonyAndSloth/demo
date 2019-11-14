@@ -12,10 +12,10 @@
         select count(r_id) from ruzhu
     </select>
     <update id="update" parameterType="com.home.demo.entity.RuZhuShenHe">
-        update ruzhu set r_shenhe="已通过" where r_id=#{r_id}
+        update ruzhu set r_shenhe="审核通过" where r_id=#{r_id}
     </update>
     <update id="addupdate" parameterType="com.home.demo.entity.RuZhuShenHe">
-        update ruzhu set r_shenhe="已驳回" where r_id=#{r_id}
+        update ruzhu set r_shenhe="审核不通过" where r_id=#{r_id}
     </update>
     <insert id="add" parameterType="com.home.demo.entity.RuZhuShenHe">
         insert into bohui(b_liyou,id,r_id) values (#{b_liyou},#{id},#{r_id})

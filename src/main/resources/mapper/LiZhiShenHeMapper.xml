@@ -15,7 +15,7 @@
         update lizhi set l_zhuangtai="审核通过" where l_id=#{l_id}
     </update>
     <update id="update1" parameterType="com.home.demo.entity.LiZhiShenHe">
-        update lizhi set l_zhuangtai="审核未通过" where l_id=#{l_id}
+        update lizhi set l_zhuangtai="审核不通过" where l_id=#{l_id}
     </update>
     <update id="update2" parameterType="com.home.demo.entity.LiZhiShenHe">
         update cleaner set c_status="离职" where c_id=#{c_id}

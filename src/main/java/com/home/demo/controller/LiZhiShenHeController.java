@@ -32,7 +32,7 @@ public class LiZhiShenHeController {
         }
         @RequestMapping("/ss")
         public String ss(){
-            return "liZhiShenHe";
+            return "LiZhiShenHe";
         }
         @RequestMapping("/update")
         @ResponseBody
@@ -44,6 +44,7 @@ public class LiZhiShenHeController {
         @RequestMapping("/update1")
         @ResponseBody
         public boolean update1(Integer l_id){
+            System.out.println(l_id);
             liZhiShenHeService.update1(l_id);
             return true;
         }

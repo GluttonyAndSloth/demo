@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -406,22 +407,168 @@ dingdan.setC_name(dengluService.selectbjsxm(dingdan.getC_id()));
 
     @RequestMapping("bjssyzd")
     @ResponseBody
-    public Object bjssyzd(PageVo pagevo, baojieshi baojie,HttpSession session) {
-        List<baojieshi> bao=dengluService.bjsid();
+    public Object bjssyzd(PageVo pagevo, baojieshi baojie,HttpSession session,String c_name) {
+     String sss="";
+        if (c_name != null && c_name != "") {
+             sss = "%" + c_name + "%";
+        }
+        List<baojieshi> bao=dengluService.bjsid(sss);
         List fff=new ArrayList();
-        int s=0;
+        int d=0;
         for (baojieshi baojieshi : bao) {
            List<baojszd> baozd=dengluService.bjsdzd(baojieshi.getC_id());
-           if(baozd==null){
-               fff.add(baojieshi);
-               s++;
+            System.out.println(baozd);
+           if(baozd.size()==0){
+               if(pagevo.getLimit()*(pagevo.getPage()-1)<=d && pagevo.getLimit()*pagevo.getPage()>d){
+                   baojszd baojs=new baojszd();
+                   baojs.setY_name(baojieshi.getC_name());
+                   baojs.setY_age(baojieshi.getC_age());
+                   baojs.setY_sex(baojieshi.getC_sex());
+                   List<dingdan> sydl=dengluService.bjsdsydd(baojieshi.getC_id());
+                   int dsl=0;
+                   int yfgz=0;
+                   for (dingdan dingdan : sydl) {
+                       dsl++;
+                       yfgz=  yfgz+dingdan.getO_total();
+                   }
+                   baojs.setY_sydl(dsl);
+                   List<pingjia> ding=dengluService.bjsdpjs(baojieshi.getC_id());
+                   int hps=0;
+                   int cps=0;
+                   for (pingjia pingjia : ding) {
+                       if(pingjia.getE_ping()>=4){
+                           hps++;
+                       }else {
+                           cps++;
+                       }
+                   }
+                   int sdfsdf= (int) (yfgz*0.9);
+                   baojs.setY_yfgz(yfgz);
+                   baojs.setY_hps(hps);
+                   baojs.setY_cps(cps);
+                   int sfgz=sdfsdf-cps*50;
+                   baojs.setY_sfgz(sfgz);
+                   baojs.setC_id(baojieshi.getC_id());
+                   fff.add(baojs);
+               }
+               d++;
            }
         }
+        System.out.println(fff);
         PageUtil pageutil = new PageUtil();
-        pageutil.setCount(s);
+        pageutil.setCount(d);
         pageutil.setCode(0);
         pageutil.setData(fff);
         pageutil.setMsg("");
         return pageutil;
+    }
+    @RequestMapping("tjbjszd")
+    @ResponseBody
+    public String tjbjszd(baojszd baojs){
+       baojs.setY_czsj(new Date());
+       int ss=dengluService.tjbjszd(baojs);
+        System.out.println(baojs);
+       System.out.println(ss);
+        if(1>0){
+            return "dd";
+        }else {
+            return "ss";
+        }
+    }
+
+    @RequestMapping("selectbjszdxx")
+    @ResponseBody
+    public Object selectbjszdxx(PageVo pagevo, baojszd bao,HttpSession session) {
+        if (bao.getY_name() != null && bao.getY_name() != "") {
+            String sss = "%" + bao.getY_name() + "%";
+            bao.setY_name(sss);
+        } else {
+            bao.setY_name("");
+        }
+        System.out.println(bao);
+        int s = dengluService.bjsdzdSL(bao);
+        System.out.println(s);
+        List<baojszd> list = dengluService.bjsdzdxx(pagevo, bao);
+        System.out.println(list);
+        PageUtil pageutil = new PageUtil();
+        pageutil.setCount(s);
+        pageutil.setCode(0);
+        pageutil.setData(list);
+        pageutil.setMsg("");
+        return pageutil;
+    }
+    @RequestMapping("gongsicaiwutongji")
+    public String gongsicaiwutongji(){
+        return "gongsicaiwutongji";
+    }
+    @RequestMapping("cwtjxx")
+    @ResponseBody
+    public Object cwtjxx() {
+       List<baojszd> zs=dengluService.cwsytjxx();
+       int ddzs=0;
+       int jyje=0;
+       int bjsgz=0;
+       int lr=0;
+        for (baojszd z : zs) {
+            ddzs=ddzs+z.getY_sydl();
+            jyje=jyje+z.getY_yfgz();
+            bjsgz=bjsgz+z.getY_sfgz();
+        }
+        lr=jyje-bjsgz;
+        List<baojszd> zss=dengluService.cwssytjxx();
+        int ddszs=0;
+        int jysje=0;
+        int bjssgz=0;
+        int lsr=0;
+        for (baojszd zzs : zss) {
+            ddszs=ddszs+zzs.getY_sydl();
+            jysje=jysje+zzs.getY_yfgz();
+            bjssgz=bjssgz+zzs.getY_sfgz();
+        }
+        lsr=jysje-bjssgz;
+        List<dingdan> ds=dengluService.cwxytjxx();
+        int ddxzs=0;
+        int jyxje=0;
+        int bjxsgz=0;
+        int lxr=0;
+        for (dingdan d : ds) {
+            ddxzs=ddxzs+1;
+            jyxje=jyxje+d.getO_total();
+           List<pingjia> ddsp=dengluService.pjs(d.getC_id());
+           int h=0;
+            for (pingjia pingjia : ddsp) {
+                if(pingjia.getE_ping()<4){
+                    h++;
+                }
+            }
+            bjxsgz= (int) (jyxje*0.9)-50*h;
+        }
+        lxr=jyxje-bjxsgz;
+ List dds=new ArrayList();
+ dds.add(ddszs);
+ dds.add(ddzs);
+ dds.add(ddxzs);
+        List jyj=new ArrayList();
+        jyj.add(jysje);
+        jyj.add(jyje);
+        jyj.add(jyxje);
+        List bgz=new ArrayList();
+        bgz.add(bjssgz);
+        bgz.add(bjsgz);
+        bgz.add(bjxsgz);
+        List glr=new ArrayList();
+        glr.add(lsr);
+        glr.add(lr);
+        glr.add(lxr);
+        List kkk=new ArrayList();
+        kkk.add(dds);
+        kkk.add(jyj);
+        kkk.add(bgz);
+        kkk.add(glr);
+        return kkk;
+    }
+    @RequestMapping("gongsijinritongji")
+    public String gongsijinritongji(){
+        return "gongsijinritongji";
     }
 }

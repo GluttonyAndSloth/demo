@@ -193,12 +193,53 @@ public int selectbdws() {
         return dengluMapper.selectgtjyg();
     };
 
-    public List<baojieshi> bjsid() {
+    public List<baojieshi> bjsid(String c_name) {
         // TODO Auto-generated method stub
-        return dengluMapper.bjsid();
+        return dengluMapper.bjsid(c_name);
     }
     public List<baojszd> bjsdzd(Integer c_id) {
         // TODO Auto-generated method stub
         return dengluMapper.bjsdzd(c_id);
+    }
+    public List<dingdan> bjsdsydd(Integer c_id){
+        return dengluMapper.bjsdsydd(c_id);
+    };
+    public List<pingjia> bjsdpjs(Integer c_id) {
+        // TODO Auto-generated method stub
+        return dengluMapper.bjsdpjs(c_id);
+    }
+    public int tjbjszd(baojszd baojszd){
+        return dengluMapper.tjbjszd(baojszd);
+    };
+
+    public int bjsdzdSL(baojszd bao) {
+        // TODO Auto-generated method stub
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("y_name",bao.getY_name());
+        return dengluMapper.bjsdzdSL(map);
+    }
+    public List<baojszd> bjsdzdxx(PageVo pageVo, baojszd bao) {
+        // TODO Auto-generated method stub
+        int begin = pageVo.getLimit()*(pageVo.getPage()-1);
+        int end = pageVo.getLimit();
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("begin", begin);
+        map.put("end", end);
+        map.put("y_name",bao.getY_name());
+        return dengluMapper.bjsdzdxx(map);
+    }
+    public List<baojszd> cwsytjxx() {
+        // TODO Auto-generated method stub
+        return dengluMapper.cwsytjxx();
+    }
+    public List<baojszd> cwssytjxx() {
+        // TODO Auto-generated method stub
+        return dengluMapper.cwssytjxx();
+    }
+    public List<dingdan> cwxytjxx(){
+        return dengluMapper.cwxytjxx();
+    }
+    public List<pingjia> pjs(Integer c_id){
+        return dengluMapper.pjs(c_id);
     }
 }

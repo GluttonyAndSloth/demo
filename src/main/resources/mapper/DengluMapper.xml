@@ -39,11 +39,12 @@
         select * from orders where o_state='已付款' and o_paisong='未派送' limit #{begin},#{end}
     </select>
     <select id="selectbdjs" resultType="int">
-        select count(*) from orders o,cleaner c where o.o_state='已付款' and o.o_paisong='派送中' and o.c_id=c.c_id
+        select count(*) from orders o,cleaner c where o.o_state='已付款' and (o.o_paisong='已接单'or o.o_paisong='派送中'  or o.o_paisong='进行中' or o.o_paisong='等待客户确认') and o.c_id=c.c_id
     </select>
     <select id="selectdbjxx" resultType="com.home.demo.entity.dingdan"
             parameterType="map">
-        select * from orders o,cleaner c where o.o_state='已付款' and o.o_paisong='派送中' and o.c_id=c.c_id limit
+        select * from orders o,cleaner c where o.o_state='已付款' and (o.o_paisong='已接单'or o.o_paisong='派送中'  or o.o_paisong='进行中' or o.o_paisong='等待客户确认') and o.c_id=c.c_id
+        limit
         #{begin},#{end}
     </select>
     <select id="selectfwrs" resultType="int"
@@ -161,8 +162,48 @@
         on  PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( l.l_tijiao, '%Y%m' ) ) =1
         and c.c_id = l.c_id
         and l.l_zhuangtai='审核通过' ) g where (g.c_status='离职' and g.l_tijiao IS NOT NULL) or (g.c_status!='离职')
+        <if test="c_name!=null and c_name!=''">
+            and c_name like #{c_name}
+        </if>
     </select>
     <select id="bjsdzd" resultType="com.home.demo.entity.baojszd">
         SELECT * FROM bjszd WHERE DATE_FORMAT( y_czsj, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' ) and c_id=#{c_id}
+    </select>
+    <select id="bjsdsydd" resultType="com.home.demo.entity.dingdan">
+        SELECT * FROM orders WHERE PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( o_wanchengtime, '%Y%m' ) ) =1 and c_id=#{c_id} and o_state='已完成' and o_paisong='已完成'    </select>
+    <select id="bjsdpjs" resultType="com.home.demo.entity.pingjia">
+        SELECT * FROM evaluate WHERE PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( e_time, '%Y%m' ) ) =1 and c_id=#{c_id}
+    </select>
+
+    <insert id="tjbjszd" parameterType="com.home.demo.entity.baojszd">
+        INSERT INTO bjszd(y_name,y_age,y_sex,y_sydl,y_yfgz,y_sfgz,y_hps,y_cps,y_czsj,c_id)
+        VALUES(#{y_name},#{y_age},#{y_sex},#{y_sydl},#{y_yfgz},#{y_sfgz},#{y_hps},#{y_cps},#{y_czsj},#{c_id})
+    </insert>
+
+    <select id="bjsdzdSL" resultType="int" parameterType="map">
+        SELECT count(*) FROM bjszd WHERE DATE_FORMAT( y_czsj, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+        <if test="y_name!=null and y_name!=''">
+            and y_name like #{u_name}
+        </if>
+    </select>
+    <select id="bjsdzdxx" resultType="com.home.demo.entity.baojszd" parameterType="map">
+        SELECT * FROM bjszd WHERE DATE_FORMAT( y_czsj, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+        <if test="y_name!=null and y_name!=''">
+            and y_name like #{u_name}
+        </if>
+        limit #{begin},#{end}
+    </select>
+
+    <select id="cwsytjxx" resultType="com.home.demo.entity.baojszd">
+        SELECT * FROM bjszd WHERE DATE_FORMAT( y_czsj, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+    </select>
+    <select id="cwssytjxx" resultType="com.home.demo.entity.baojszd">
+        SELECT * FROM bjszd WHERE PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( y_czsj, '%Y%m' ) ) =1
+    </select>
+    <select id="cwxytjxx" resultType="com.home.demo.entity.dingdan">
+        SELECT * FROM orders WHERE DATE_FORMAT( o_wanchengtime, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' ) and o_state='已完成' and o_paisong='已完成'
+    </select>
+    <select id="pjs" resultType="com.home.demo.entity.pingjia">
+        SELECT * FROM evaluate WHERE DATE_FORMAT( e_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' ) and c_id=#{c_id}
     </select>
 </mapper>

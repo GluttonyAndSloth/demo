@@ -15,7 +15,7 @@ public interface DengluMapper {
     int selectbjss(Map<String, Object> map);
     List<baojieshi> selectbjsxx(Map<String, Object> map);
 /*    public int xgbjszt(baojieshi baojie);*/
-int selectbdws();
+ int selectbdws();
     List<dingdan> selectdbwxx(Map<String, Object> map);
     int selectbdjs();
     List<dingdan> selectdbjxx(Map<String, Object> map);
@@ -49,6 +49,17 @@ int selectbdws();
     int tianjiayonghuzw(urlian urlian);
     int selectgtjyg();
 
-    List<baojieshi> bjsid();
+    List<baojieshi> bjsid(@Param("c_name") String c_name);
     List<baojszd> bjsdzd(Integer c_id);
+    List<dingdan> bjsdsydd(Integer c_id);
+    List<pingjia> bjsdpjs(Integer c_id);
+
+    int tjbjszd(baojszd baojszd);
+
+    int bjsdzdSL(Map<String, Object> map);
+    List<baojszd> bjsdzdxx(Map<String, Object> map);
+    List<baojszd> cwsytjxx();
+   List<baojszd> cwssytjxx();
+   List<dingdan> cwxytjxx();
+   List<pingjia> pjs(Integer c_id);
 }

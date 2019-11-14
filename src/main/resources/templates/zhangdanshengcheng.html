@@ -28,6 +28,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
+
                     <div class="demoTable">
                         搜索姓名：
                         <div class="layui-inline">
@@ -37,19 +38,7 @@
                     </div>
                     <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
                     <script type="text/html" id="barDemo">
-                        {{#  if(d.c_status ==='正常'){ }}
-                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="cha">查看评价</a>
-                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="jin">禁用</a>
-                        {{# }if(d.c_status ==='禁用') { }}
-                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="cha">查看评价</a>
-                        <a class="layui-btn layui-btn-xs" lay-event="qi">启用</a>
-                        {{# }if(d.c_status ==='派送中') { }}
-                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="cha">查看评价</a>
-                        <a class="layui-btn layui-btn-disabled layui-btn-xs" lay-event="jinjin">禁用</a>
-                        {{# }if(d.c_status ==='请假中') { }}
-                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="cha">查看评价</a>
-                        <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="xiaojia">销假</a>
-                        {{#  } }}
+                        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="sheng">生成账单</a>
                     </script>
                 </div>
             </div>
@@ -65,15 +54,16 @@
         //方法级渲染
         table.render({
             elem: '#LAY_table_user'
-            ,url: 'selectbjsxx'
+            ,url: 'bjssyzd'
             ,cols: [ [
-                {field:'c_name', title: '姓名', width:120,unresize: true}
-                ,{field:'c_age', title: '年龄', width:90,unresize: true}
-                ,{field:'c_sex', title: '性别', width:120,unresize: true}
-                ,{field:'c_birthday', title: '出生年月', width:120,unresize: true}
-                ,{field:'c_address', title: '地址', width:135,unresize: true}
-                ,{field:'c_work', title: '个人介绍', width:135,unresize: true}
-                ,{field:'c_status', title: '用户状态', width:135,unresize: true}
+                {field:'y_name', title: '姓名', width:120,unresize: true}
+                ,{field:'y_age', title: '年龄', width:90,unresize: true}
+                ,{field:'y_sex', title: '性别', width:120,unresize: true}
+                ,{field:'y_sydl', title: '所有订单', width:120,unresize: true}
+                ,{field:'y_yfgz', title: '应得工资', width:135,unresize: true}
+                ,{field:'y_sfgz', title: '实得工资', width:135,unresize: true}
+                ,{field:'y_hps', title: '好评数', width:135,unresize: true}
+                ,{field:'y_cps', title: '差评数', width:135,unresize: true}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
             ] ]
             ,id: 'testReload'
@@ -118,100 +108,43 @@
         });
         table.on('tool(user)', function(obj){
             var data = obj.data;
-            if(obj.event === 'cha'){
-                var cc=data.c_id;
-                layer.open({
-                    title: ['查看评价', 'font-size:18px;'],
-                    type: 2,
-                    content:  'chakanpingjia?c_id='+cc,
-                    area: ['1500px', '800px'],
-                    skin: 'layui-layer-rim'
-                });
-            }else if(obj.event === 'jinjin'){
-                layer.alert('派送中无法操作', {
-                    skin: 'layui-layer-molv' //样式类名
-                    ,closeBtn: 0
-                    ,anim: 4
-                });
-            }else if(obj.event === 'jin'){
-                var cc=data.c_id;
+            if(obj.event === 'sheng'){
+
                 $.ajax({
-                    url:"bjsjin",
-                    data:{"c_id":cc},
+                    url:"tjbjszd",
+                    data:{"y_id":data.y_id,
+                        "y_name":data.y_name,
+                        "y_age":data.y_age,
+                        "y_sex":data.y_sex,
+                        "y_sydl":data.y_sydl,
+                        "y_yfgz":data.y_yfgz,
+                        "y_sfgz":data.y_sfgz,
+                        "y_hps":data.y_hps,
+                        "y_cps":data.y_cps,
+                        "c_id":data.c_id},
                     type:"post",
                     success:function(data){
-                        alert(data);
                         if(data=='dd'){
-                            layer.msg('禁用成功',{
+                            layer.msg('添加成功',{
                                 icon:1,
                                 time:2000
                             },function(){
-                                var type = $('#demoReload').data('type');
-                                active[type] ? active[type].call(this) : '';
+                                layer.close(layer.index);
+                                window.parent.location.reload();
                             });
                         }else{
-                            layer.msg('禁用失败',{
+                            layer.msg('添加失败',{
                                 icon:2,
                                 time:2000
                             },function(){
 
                             });
                         }
-                    }
-                });
-            }
-            else if(obj.event === 'qi'){
-                var cc=data.c_id;
-                $.ajax({
-                    url:"bjsqi",
-                    data:{"c_id":cc},
-                    type:"post",
-                    success:function(data){
-                        alert(data);
-                        if(data=='dd'){
-                            layer.msg('启用成功',{
-                                icon:1,
-                                time:2000
-                            },function(){
-                                var type = $('#demoReload').data('type');
-                                active[type] ? active[type].call(this) : '';
-                            });
-                        }else{
-                            layer.msg('启用失败',{
-                                icon:2,
-                                time:2000
-                            },function(){
+                    },
+                    error:function(){
 
-                            });
-                        }
                     }
-                });
-            }else if(obj.event === 'xiaojia'){
-                var cc=data.c_id;
-                $.ajax({
-                    url:"bjsxiao",
-                    data:{"c_id":cc},
-                    type:"post",
-                    success:function(data){
-                        alert(data);
-                        if(data=='dd'){
-                            layer.msg('销假成功',{
-                                icon:1,
-                                time:2000
-                            },function(){
-                                var type = $('#demoReload').data('type');
-                                active[type] ? active[type].call(this) : '';
-                            });
-                        }else{
-                            layer.msg('销假失败',{
-                                icon:2,
-                                time:2000
-                            },function(){
-
-                            });
-                        }
-                    }
-                });
+                })
             }
         });
     });
