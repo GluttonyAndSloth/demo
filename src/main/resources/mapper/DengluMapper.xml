@@ -47,16 +47,21 @@
         limit
         #{begin},#{end}
     </select>
+
+    <select id="selectfwrzwid" resultType="int">
+        SELECT si_id from serviceinfo where si_name=#{si_name}
+    </select>
+
     <select id="selectfwrs" resultType="int"
             parameterType="map">
-        select count(*) from cleaner where 1=1 and c_status='正常'
+        select count(*) from cleaner where 1=1 and c_status='正常' and si_id=#{si_id}
         <if test="c_address!=null and c_address!=''">
             and c_address like #{c_address}
         </if>
     </select>
     <select id="selectfwrxx" resultType="com.home.demo.entity.baojieshi"
             parameterType="map">
-        select * from cleaner where 1=1 and c_status='正常'
+        select * from cleaner where 1=1 and c_status='正常' and si_id=#{si_id}
         <if test="c_address!=null and c_address!=''">
             and c_address like #{c_address}
         </if>
@@ -205,5 +210,9 @@
     </select>
     <select id="pjs" resultType="com.home.demo.entity.pingjia">
         SELECT * FROM evaluate WHERE DATE_FORMAT( e_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' ) and c_id=#{c_id}
+    </select>
+
+    <select id="jrcwsydd" resultType="com.home.demo.entity.dingdan">
+        select * from orders where to_days(o_wanchengtime) = to_days(now())
     </select>
 </mapper>

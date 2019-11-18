@@ -70,13 +70,18 @@ public int selectbdws() {
         map.put("end", end);
         return dengluMapper.selectdbjxx(map);
     }
-    public int selectfwrs(baojieshi baojie) {
+    public int selectfwrzwid(String si_name) {
+        // TODO Auto-generated method stub
+        return dengluMapper.selectfwrzwid(si_name);
+    }
+    public int selectfwrs(baojieshi baojie,int si_id) {
         // TODO Auto-generated method stub
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("c_address",baojie.getC_address());
+        map.put("si_id",si_id);
         return dengluMapper.selectfwrs(map);
     }
-    public List<baojieshi> selectfwrxx(PageVo pageVo, baojieshi baojie) {
+    public List<baojieshi> selectfwrxx(PageVo pageVo, baojieshi baojie,int si_id) {
         // TODO Auto-generated method stub
         int begin = pageVo.getLimit()*(pageVo.getPage()-1);
         int end = pageVo.getLimit();
@@ -84,6 +89,7 @@ public int selectbdws() {
         map.put("begin", begin);
         map.put("end", end);
         map.put("c_address",baojie.getC_address());
+        map.put("si_id",si_id);
         return dengluMapper.selectfwrxx(map);
     }
     public int pqfwry(dingdan ding){
@@ -241,5 +247,9 @@ public int selectbdws() {
     }
     public List<pingjia> pjs(Integer c_id){
         return dengluMapper.pjs(c_id);
+    }
+    public List<dingdan> jrcwsydd() {
+        // TODO Auto-generated method stub
+        return dengluMapper.jrcwsydd();
     }
 }

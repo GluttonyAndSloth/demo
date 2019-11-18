@@ -19,6 +19,7 @@ public interface DengluMapper {
     List<dingdan> selectdbwxx(Map<String, Object> map);
     int selectbdjs();
     List<dingdan> selectdbjxx(Map<String, Object> map);
+    int selectfwrzwid(String si_name);
     int selectfwrs(Map<String, Object> map);
     List<baojieshi> selectfwrxx(Map<String, Object> map);
     int pqfwry(dingdan ding);
@@ -62,4 +63,5 @@ public interface DengluMapper {
    List<baojszd> cwssytjxx();
    List<dingdan> cwxytjxx();
    List<pingjia> pjs(Integer c_id);
+    List<dingdan> jrcwsydd();
 }

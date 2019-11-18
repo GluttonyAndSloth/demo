@@ -27,7 +27,7 @@ public class PriceController {
         map.put("pri_id",price.getPri_id());
         List<Price> userList = priceService.selectAll(map);
         Integer count = priceService.selectPriceCount(map);
-         System.out.println("查到了啊"+userList);
+        // System.out.println("查到了啊"+userList);
         //c查询总条数
         return FenyeResult.fenye(userList,count);
     }
@@ -40,6 +40,7 @@ public class PriceController {
     @ResponseBody
     public Boolean updatePrice(Price price){
         priceService.updatePrice(price);
+        System.out.println("查到了啊");
         return true;
     }
 

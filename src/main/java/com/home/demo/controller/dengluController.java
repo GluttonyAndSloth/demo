@@ -162,26 +162,28 @@ public String zhuye(){
         return pageutil;
     }
     @RequestMapping("chapaidanren")
-    public String chapaidanren(String o_address,Model model,String o_id){
+    public String chapaidanren(String o_address,Model model,String o_id,String o_name){
         System.out.println(o_address);
         System.out.println(o_id);
      model.addAttribute("nnnn",o_address);
         model.addAttribute("mmmm",o_id);
+        model.addAttribute("name",o_name);
         return "chapaidanren";
     }
     @RequestMapping("selectfwrxx")
     @ResponseBody
-    public Object selectfwrxx(PageVo pagevo, baojieshi baojie) {
+    public Object selectfwrxx(PageVo pagevo, baojieshi baojie,String o_name) {
         if (baojie.getC_address() != null && baojie.getC_address() != "") {
             String sss = "%" + baojie.getC_address() + "%";
             baojie.setC_address(sss);
         } else {
             baojie.setC_address("");
         }
+        int b=dengluService.selectfwrzwid(o_name);
         System.out.println(baojie.getC_address());
-        int s = dengluService.selectfwrs(baojie);
+        int s = dengluService.selectfwrs(baojie,b);
         System.out.println(s);
-        List<baojieshi> list = dengluService.selectfwrxx(pagevo, baojie);
+        List<baojieshi> list = dengluService.selectfwrxx(pagevo, baojie,b);
         System.out.println(list);
         PageUtil pageutil = new PageUtil();
         pageutil.setCount(s);
@@ -570,5 +572,43 @@ dingdan.setC_name(dengluService.selectbjsxm(dingdan.getC_id()));
     @RequestMapping("gongsijinritongji")
     public String gongsijinritongji(){
         return "gongsijinritongji";
+    }
+    @RequestMapping("cwjrtjxx")
+    @ResponseBody
+    public Object cwjrtjxx() {
+        List<dingdan> zs=dengluService.jrcwsydd();
+        int shuoyou=0;
+        int wancheng=0;
+        int quxiao=0;
+        int jinxingzhong=0;
+        int jyje=0;
+        int bjshl=0;
+        int gshl=0;
+        for (dingdan z : zs) {
+            if(z.getO_state().equals("已完成")&&z.getO_paisong().equals("已完成")){
+                System.out.println(z.getO_total());
+            jyje=z.getO_total()+jyje;
+            wancheng++;
+            shuoyou++;
+            }else if(z.getO_state().equals("已取消")&&z.getO_paisong().equals("已取消")){
+                System.out.println(z.getO_total());
+                quxiao++;
+                shuoyou++;
+            }else {
+                jinxingzhong++;
+                shuoyou++;
+            }
+        }
+        bjshl= (int) (jyje*0.9);
+        gshl=jyje-bjshl;
+        List dds=new ArrayList();
+        dds.add(shuoyou);
+        dds.add(wancheng);
+        dds.add(jinxingzhong);
+        dds.add(quxiao);
+        dds.add(jyje);
+        dds.add(bjshl);
+        dds.add(gshl);
+        return dds;
     }
 }

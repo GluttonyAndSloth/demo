@@ -64,11 +64,11 @@
             elem: '#LAY_table_user'
             ,url: 'selectygxx'
             ,cols: [ [
-                {field:'u_name', title: '姓名', width:120,unresize: true}
-                ,{field:'u_age', title: '年龄', width:90,unresize: true}
+                {field:'u_name', title: '姓名', width:130,unresize: true}
+                ,{field:'u_age', title: '年龄', width:130,unresize: true}
                 ,{field:'u_sex', title: '性别', width:120,unresize: true}
-                ,{field:'u_password', title: '身份证号', width:120,unresize: true}
-                ,{field:'u_address', title: '地址', width:135,unresize: true}
+                ,{field:'u_password', title: '身份证号', width:200,unresize: true}
+                ,{field:'u_address', title: '地址', width:300,unresize: true}
                 ,{field:'u_status', title: '员工状态', width:135,unresize: true}
                 ,{field:'r_name', title: '员工职位', width:135,unresize: true}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
@@ -78,7 +78,7 @@
                 limit:5,
                 limits:[5,10,15,20]
             }
-            ,height: 300
+            ,height: 780
         });
         var $ = layui.$, active = {
             reload: function(){
@@ -99,7 +99,7 @@
                 title: ['添加员工', 'font-size:18px;'],
                 type: 2,
                 content:  ['yuangongtianjia','no'] ,
-                area: ['1500px', '800px'],
+                area: ['550px', '550px'],
                 skin: 'layui-layer-rim'
             });
         });

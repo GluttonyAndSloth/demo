@@ -37,7 +37,7 @@ public class FuwuController {
     }
     @RequestMapping("selectfuwu")
     public String tiaoyiao(){
-        return "fuwufanwei";
+        return "Fuwufanwei";
     }
     @RequestMapping("gerenxinxi")
     public String gerenxinxi(){

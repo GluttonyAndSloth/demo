@@ -47,16 +47,21 @@
         //方法级渲染
 
     });
+    var arr=new Array();
+    $.ajax({
+        url:"cwjrtjxx",
+        type:"post",
+        success:function(data){
+            arr=data;
+                alert(arr[1]);
+            alert(arr);
+        }
+    });
+    alert(arr);
     var dom = document.getElementById("container");
     var myChart = echarts.init(dom);
     var app = {};
     option = null;
-    var myDate = new Date();
-    //获取当前月
-    var month=myDate.getMonth()+1;
-    var  ddd=[];
-    ddd.push(month-2+"月");
-    ddd.push(month-1+"月");
     option = {
         tooltip : {
             trigger: 'axis',
@@ -65,7 +70,7 @@
             }
         },
         legend: {
-            data:['直接访问','邮件营销','联盟广告']
+            data:['今日所有单量','所有完成单量','所以进行中单量','所有取消单量','交易金额','保洁师获利','公司获利']
         },
         grid: {
             left: '3%',
@@ -73,12 +78,12 @@
             bottom: '3%',
             containLabel: true
         },
-        xAxis : [
+        xAxis :
             {
                 type : 'category',
-                data : ddd
+                data : ['今日']
             }
-        ],
+        ,
         yAxis : [
             {
                 type : 'value'
@@ -86,21 +91,44 @@
         ],
         series : [
             {
-                name:'直接访问',
+                name:'今日所有单量',
                 type:'bar',
-                data:[320, 332, 301, 334, 390, 330, 320]
+                data:[arr[0]]
             },
             {
-                name:'邮件营销',
+                name:'所有完成单量',
                 type:'bar',
-
-                data:[120, 132, 101, 134, 90, 230, 210]
+                data:[arr[1]]
             },
             {
-                name:'联盟广告',
+                name:'所以进行中单量',
                 type:'bar',
 
-                data:[220, 182, 191, 234, 290, 330, 310]
+                data:[arr[2]]
+            },
+            {
+                name:'所有取消单量',
+                type:'bar',
+
+                data:[arr[3]]
+            },
+            {
+                name:'交易金额',
+                type:'bar',
+
+                data:[arr[4]]
+            },
+            {
+                name:'保洁师获利',
+                type:'bar',
+
+                data:[arr[5]]
+            },
+            {
+                name:'公司获利',
+                type:'bar',
+
+                data:[arr[6]]
             }
         ]
     };
