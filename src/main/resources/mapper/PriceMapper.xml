@@ -25,4 +25,7 @@
     <update id="updatePrice" parameterType="com.home.demo.entity.Price">
         update price set pri_name=#{pri_name},pri_price=#{pri_price},pri_danwei=#{pri_danwei},pri_bei=#{pri_bei}  where pri_id=#{pri_id}
     </update>
+    <update id="updatePrice1" parameterType="com.home.demo.entity.Price">
+       update projectinfo set p_price=#{param2} where p_id=(select p_id from project where p_name=#{param1})
+    </update>
 </mapper>

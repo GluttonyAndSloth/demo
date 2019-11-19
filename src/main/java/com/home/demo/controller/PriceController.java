@@ -39,8 +39,12 @@ public class PriceController {
     @RequestMapping("updatePrice")
     @ResponseBody
     public Boolean updatePrice(Price price){
+
+        String pri_name=price.getPri_name();
+        String pri_price=price.getPri_price();
         priceService.updatePrice(price);
-        System.out.println("查到了啊");
+        priceService.updatePrice1(pri_name,pri_price);
+        //System.out.println("查到了啊");
         return true;
     }
 

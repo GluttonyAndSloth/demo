@@ -16,4 +16,5 @@ public interface PriceMapper {
     public Integer selectAllPriceCount(Map<String, Object> map);
     //修改
     public boolean updatePrice(Price price);
+    public boolean updatePrice1(String pri_name,String p_price);
 }

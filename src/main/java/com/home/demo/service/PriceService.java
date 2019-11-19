@@ -24,6 +24,8 @@ public class PriceService {
     public boolean updatePrice(Price price){
         return priceMapper.updatePrice(price);
     }
-
+    public boolean updatePrice1(String pri_name,String p_price){
+        return priceMapper.updatePrice1(pri_name,p_price);
+    }
 
 }
