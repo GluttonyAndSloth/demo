@@ -252,4 +252,45 @@ public int selectbdws() {
         // TODO Auto-generated method stub
         return dengluMapper.jrcwsydd();
     }
+
+    public List<quanxian> csyqx(Integer r_id) {
+        // TODO Auto-generated method stub
+        return dengluMapper.csyqx(r_id);
+    }
+
+    public List<user> selectyfdhfdghgxx(Integer r_id) {
+        // TODO Auto-generated method stub
+        return dengluMapper.selectyfdhfdghgxx(r_id);
+    }
+    public List<quanxian> czwqx(Integer r_id) {
+        // TODO Auto-generated method stub
+        return dengluMapper.czwqx(r_id);
+    }
+    public     List<rmlian> cxqx(rmlian ur){
+        return dengluMapper.cxqx(ur);
+    }
+    public int tjqx(rmlian ur){
+        return dengluMapper.tjqx(ur);
+    }
+    public     List<rmlian> cxzqx(rmlian ur){
+        return dengluMapper.cxzqx(ur);
+    }
+    public int tjzqx(rmlian ur){
+        return dengluMapper.tjzqx(ur);
+    }
+    public int scqx(rmlian ur){
+        return dengluMapper.scqx(ur);
+    }
+    public int cxzpqx(Integer id){
+        return dengluMapper.cxzpqx(id);
+    }
+    public     List<rmlian> cxzsqx(rmlian ur){
+        return dengluMapper.cxzsqx(ur);
+    }
+    public int sczqx(rmlian ur){
+        return dengluMapper.sczqx(ur);
+    }
+    public     List<quanxian> cxsyqx(quanxian quan){
+        return dengluMapper.cxsyqx(quan);
+    }
 }

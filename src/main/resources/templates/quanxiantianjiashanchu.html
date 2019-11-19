@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="<%=basePath%>">
+
+    <title>gg</title>
+
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="This is my page">
+    <style type="text/css">
+        .layui-table-cell .layui-form-checkbox[lay-skin="primary"] {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+    </style>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./js/jquery-1.8.3.min.js"></script>
+    <script src="./layui/layui.js"></script>
+    <script src="./js/xadmin.js"></script>
+</head>
+
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div style="width: 200px;height: 500px;float: left;align-content: center;"  class="ddd" align="center">
+                    <div th:each="s:${sqzw}">
+                        <button type="button" class="layui-btn layui-btn-normal"   th:value="${s.r_id}" th:text="${s.r_name}" style="width: 160px;margin-top: 20px;">百搭按钮</button>
+                    </div>
+                </div>
+                <div class="layui-card-body " style="overflow: auto;height: 780px;">
+                    <div id="test9" class="demo-tree demo-tree-box" style="width: 200px; height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+var dddd;
+    $.ajax({
+        url:"csyqx",
+        type:"post",
+        success:function(data){
+            layui.use(['tree', 'util'], function() {
+                var tree = layui.tree
+                    , layer = layui.layer
+                    , util = layui.util
+                    ,data1 =data
+                    tree.render({
+                        elem: '#test9'
+                        ,id: 'demoId1'
+                        ,data: data1
+                        ,showCheckbox: true
+                        ,isFirstTouch:false
+
+                    });
+            })
+        }
+    });
+
+    $('.ddd').on('click','button',function(){
+        var dd=$(this).val();
+        dddd=dd;
+        $.ajax({
+            url:"czwqx",
+            data:{"r_id":dd},
+            type:"post",
+            success:function(sss){
+                alert(sss);
+                var d=0;
+                layui.use(['tree', 'util'], function() {
+                    var tree = layui.tree
+                        ,checkCallback = false
+
+                    tree.reload('demoId1', {
+
+                        oncheck: function(obj){
+                        var data = obj.data;  //获取当前点击的节点数据
+                        alert('<br>节点数据：' + JSON.stringify(data));
+                        if(data.children==null){
+                            alert("null");
+                            alert(checkCallback);
+                            d++;
+                            alert(d);
+                            if(d==sss.length+1){
+                                checkCallback=true;
+                            }
+                            if (checkCallback==true){
+                                $.ajax({
+                                    url:"qxxg",
+                                    data:{"roleid":dddd,"menuid":data.id},
+                                    type:"post",
+                                    success:function(data){
+                                        alert(data);
+                                    }
+                                });
+                            }
+
+                        }else{
+                            $.ajax({
+                                url:"qxzxg",
+                                data:{"roleid":dddd,"menuid":data.id},
+                                type:"post",
+                                success:function(data){
+                                    alert(data);
+                                }
+                            });
+                        }
+
+                    }
+                    });
+                    tree.setChecked('demoId1',sss);
+                })
+            }
+        });
+    });
+</script>
+</html>

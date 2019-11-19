@@ -64,4 +64,16 @@ public interface DengluMapper {
    List<dingdan> cwxytjxx();
    List<pingjia> pjs(Integer c_id);
     List<dingdan> jrcwsydd();
+    List<quanxian> csyqx(Integer r_id);
+    List<user> selectyfdhfdghgxx(@Param("r_id") Integer r_id);
+    List<quanxian> czwqx(Integer r_id);
+    List<rmlian> cxqx(rmlian rm);
+    int tjqx(rmlian ur);
+    List<rmlian> cxzqx(rmlian rm);
+    int tjzqx(rmlian ur);
+    int scqx(rmlian ur);
+    int cxzpqx(Integer id);
+    List<rmlian> cxzsqx(rmlian rm);
+    int sczqx(rmlian ur);
+    List<quanxian> cxsyqx(quanxian quan);
 }

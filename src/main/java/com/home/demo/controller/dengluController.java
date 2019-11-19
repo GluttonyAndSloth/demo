@@ -3,8 +3,10 @@ package com.home.demo.controller;
 import com.home.demo.entity.*;
 import com.home.demo.service.DengluService;
 import com.home.demo.service.FuwuService;
+import com.home.demo.util.Fujie;
 import com.home.demo.util.PageUtil;
 import com.home.demo.util.PageVo;
+import com.home.demo.util.Zijie;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -610,5 +612,110 @@ dingdan.setC_name(dengluService.selectbjsxm(dingdan.getC_id()));
         dds.add(bjshl);
         dds.add(gshl);
         return dds;
+    }
+    @RequestMapping("quanxiantianjiashanchu")
+    public String quanxiantianjiashanchu(Model model,HttpSession session){
+        int ss= (int) session.getAttribute("zw");
+        List<user> us=dengluService.selectyfdhfdghgxx(ss);
+        model.addAttribute("sqzw",us);
+        return "quanxiantianjiashanchu";
+    }
+
+    @RequestMapping("csyqx")
+    @ResponseBody
+    public Object csyqx(HttpSession session) {
+        int ss= (int) session.getAttribute("zw");
+      List<quanxian> qx=dengluService.csyqx(ss);
+        List<Fujie> fu=new ArrayList();
+        for (quanxian quanxian : qx) {
+            if (quanxian.getPid()==0){
+                Fujie fujie=new Fujie();
+                fujie.setTitle(quanxian.getName());
+                fujie.setId(quanxian.getId());
+                List<Zijie> zi=new ArrayList();
+                for (quanxian quan : qx) {
+                    if (quanxian.getId()==quan.getPid()){
+                        Zijie zij=new Zijie();
+                        zij.setTitle(quan.getName());
+                        zij.setId(quan.getId());
+                        zi.add(zij);
+                    }
+                }
+                System.out.println(zi);
+                fujie.setChildren(zi);
+                fu.add(fujie);
+            }
+
+        }
+        return fu;
+    }
+
+    @RequestMapping("czwqx")
+    @ResponseBody
+    public Object czwqx(Integer r_id) {
+        List<quanxian> qx=dengluService.czwqx(r_id);
+        List xx=new ArrayList();
+        for (quanxian quanxian : qx) {
+            xx.add(quanxian.getId());
+        }
+        return xx;
+    }
+    @RequestMapping("qxxg")
+    @ResponseBody
+    public Object qxxg(rmlian ur) {
+        List<rmlian> dd=dengluService.cxqx(ur);
+        System.out.println("22222"+dd);
+if(dd.size()<=0){
+    List<rmlian> ss=dengluService.cxzqx(ur);
+    System.out.println("22222"+ss);
+    if(ss.size()<=0){
+        int ddddss=dengluService.cxzpqx(ur.getMenuid());
+        rmlian r=new rmlian();
+        r.setRoleid(ur.getRoleid());
+        r.setMenuid(ddddss);
+int dc=dengluService.tjzqx(r);
+int cd=dengluService.tjqx(ur);
+    }else {
+        int cd=dengluService.tjqx(ur);
+    }
+}else {
+    int sc=dengluService.scqx(ur);
+    List<rmlian> ss=dengluService.cxzsqx(ur);
+    if(ss.size()<=0){
+int ddf=dengluService.sczqx(ur);
+    }
+}
+        return "xx";
+    }
+
+    @RequestMapping("qxzxg")
+    @ResponseBody
+    public Object qxzxg(rmlian ur) {
+        List<rmlian> dd=dengluService.cxqx(ur);
+        System.out.println("22222"+dd);
+        if(dd.size()<=0){
+            int ssd=dengluService.tjqx(ur);
+            quanxian q=new quanxian();
+            q.setPid(ur.getMenuid());
+            List<quanxian> qx=dengluService.cxsyqx(q);
+            for (quanxian quanxian : qx) {
+                rmlian r=new rmlian();
+                r.setRoleid(ur.getRoleid());
+                r.setMenuid(quanxian.getId());
+                int ddx=dengluService.tjqx(r);
+            }
+        }else {
+            int ssd=dengluService.scqx(ur);
+            quanxian q=new quanxian();
+            q.setPid(ur.getMenuid());
+            List<quanxian> qx=dengluService.cxsyqx(q);
+            for (quanxian quanxian : qx) {
+                rmlian r=new rmlian();
+                r.setRoleid(ur.getRoleid());
+                r.setMenuid(quanxian.getId());
+                int ddx=dengluService.scqx(r);
+            }
+        }
+        return "xx";
     }
 }

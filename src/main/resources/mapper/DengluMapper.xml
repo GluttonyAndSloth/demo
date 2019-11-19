@@ -215,4 +215,49 @@
     <select id="jrcwsydd" resultType="com.home.demo.entity.dingdan">
         select * from orders where to_days(o_wanchengtime) = to_days(now())
     </select>
+
+    <select id="csyqx" resultType="com.home.demo.entity.quanxian">
+        SELECT m.* from t_menu m,t_role r,t_role_menu rm where m.id=rm.menuid and rm.roleid=r.r_id and r.r_id=#{r_id}
+    </select>
+
+    <select id="selectyfdhfdghgxx" resultType="com.home.demo.entity.user"
+            >
+        select * from t_role where r_name!='超级管理员'
+        <if test="r_id==2">
+            and r_name!='管理员'
+        </if>
+    </select>
+
+    <select id="czwqx" resultType="com.home.demo.entity.quanxian">
+        SELECT m.id from t_menu m,t_role r,t_role_menu rm where m.id=rm.menuid and rm.roleid=r.r_id and r.r_id=#{r_id} and m.pid!=0
+    </select>
+
+    <insert id="tjqx">
+        INSERT into t_role_menu(roleid,menuid) VALUES(#{roleid},#{menuid})
+    </insert>
+    <delete id="scqx">
+        DELETE from t_role_menu where roleid=#{roleid} and menuid=#{menuid}
+    </delete>
+    <select id="cxqx" resultType="com.home.demo.entity.rmlian">
+        select * from  t_role_menu where roleid=#{roleid} and menuid=#{menuid}
+    </select>
+    <select id="cxzqx" resultType="com.home.demo.entity.rmlian">
+        select * from  t_role_menu where roleid=#{roleid} and menuid=(select pid from t_menu where id=#{menuid})
+    </select>
+    <insert id="tjzqx">
+        INSERT into t_role_menu(roleid,menuid) VALUES(#{roleid},#{menuid})
+    </insert>
+    <select id="cxzpqx" resultType="int">
+       select pid from t_menu where id=#{id}
+    </select>
+    <select id="cxzsqx" resultType="com.home.demo.entity.rmlian">
+        SELECT * from t_role_menu where roleid=#{roleid} and menuid=(SELECT ID from t_menu where pid=(select pid from t_menu where id=#{menuid}) and id!=#{menuid})
+    </select>
+    <delete id="sczqx">
+        DELETE from t_role_menu where roleid=#{roleid} and menuid=(select pid from t_menu where id=#{menuid})
+    </delete>
+
+    <select id="cxsyqx" resultType="com.home.demo.entity.quanxian">
+        SELECT * from t_menu where pid=#{pid}
+    </select>
 </mapper>
