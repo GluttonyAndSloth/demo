@@ -210,18 +210,32 @@
             var form = layui.form;
             //监听提交
             form.on('submit(demo)',function(data){
-                $.post("/springboot/fuwu/updateFuwu",data.field,function(res){
-                    layer.msg("修改");
-                    if(res==true){
-                        layer.closeAll();
-                        layer.msg("修改成功");
-                       // parent.location.reload();
-                        window.location.href="/springboot/fuwu/selectfuwu";
-                    }else{
-                        layer.msg("修改失败")
-                    }
-                },"json")
+                $.ajax({
+                    url:"/springboot/fuwu/updateFuwu",
+                    data:data.field,
+                    type:"post",
+                    success:function(data){
+                        if(data==true){
+                            layer.msg('修改成功',{
+                                icon:1,
+                                time:2000
+                            },function(){
+                                window.parent.location.reload();
+                            });
+                        }else{
+                            layer.msg('修改失败',{
+                                icon:2,
+                                time:2000
+                            },function(){
 
+                            });
+                        }
+                    },
+                    error:function(){
+
+                    }
+                })
+                return false;
             })
 
             //监听提交

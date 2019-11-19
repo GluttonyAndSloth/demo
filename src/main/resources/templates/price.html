@@ -66,18 +66,15 @@
 
 </body>
 <script>
-    $(function(){
-        all();
-    })
     function zero(){
         var pri_price=$("#pri_price").val();
         if(pri_price=="0"){
             layer.msg("不能为0");
         }
     }
-function all(){
-layui.use(['table', 'layer'], function(){
-var table = layui.table;
+layui.use(['table', 'layer','form'], function(){
+var table = layui.table,
+    form=layui.form;
 var layer = layui.layer;
 var $ = layui.$;
 //第一个实例
@@ -101,6 +98,34 @@ toolbar:barDemo
 }
 ]]
 });
+    form.on('submit(demo)',function(data){
+        $.ajax({
+            url:"/springboot/price/updatePrice",
+            data:data.field,
+            type:"post",
+            success:function(data){
+                if(data==true){
+                    layer.msg('修改成功',{
+                        icon:1,
+                        time:2000
+                    },function(){
+                        window.parent.location.reload();
+                    });
+                }else{
+                    layer.msg('修改失败',{
+                        icon:2,
+                        time:2000
+                    },function(){
+
+                    });
+                }
+            },
+            error:function(){
+
+            }
+        })
+        return false;
+    })
     table.on('tool(test)',function(obj) {
         var event = obj.event;
         var data = obj.data;
@@ -119,7 +144,6 @@ toolbar:barDemo
         }
     })
 });
-}
 </script>
 <script type="text/javascript">
     var popForm;
@@ -134,23 +158,6 @@ toolbar:barDemo
         });
         popForm.render(null,'formTestFilter');
     }
-        layui.use('form', function(){
-            var form = layui.form;
-            //监听提交
-            form.on('submit(demo)',function(data){
-                $.post("/springboot/price/updatePrice",data.field,function(res){
-                    layer.msg("修改成功");
-                    window.parent.location.reload();
-               /*     if(res==true){
-                        //layer.closeAll();
-                        layer.msg("修改成功");
-                        window.parent.location.reload();
-                    }else{
-                        layer.msg("修改失败");
-                    }*/
-                },"json")
-            })
-        });
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-sm " lay-event="updatePrice">修改</a>
