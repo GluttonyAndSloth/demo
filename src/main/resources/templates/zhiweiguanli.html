@@ -107,15 +107,14 @@
                 type:"post",
                 success:function(data){
                     if(data=='dd'){
-                        layer.msg('派单成功',{
+                        layer.msg('成功',{
                             icon:1,
                             time:2000
                         },function(){
-                            layer.close(layer.index);
                             window.parent.location.reload();
                         });
                     }else{
-                        layer.msg('派单失败',{
+                        layer.msg('失败',{
                             icon:2,
                             time:2000
                         },function(){

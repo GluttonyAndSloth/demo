@@ -45,8 +45,6 @@
     var dd=$("#di").text();
     var id=$("#id").text();
     var name=$("#name").text();
-    alert(id);
-    alert(dd);
     layui.use(['table','form','layer'], function(){
         var table = layui.table
             ,form = layui.form,
@@ -84,7 +82,6 @@
                     data:{"c_id":ddd,"o_id":id},
                     type:"post",
                     success:function(data){
-                        alert(data);
                         if(data=='dd'){
                             layer.msg('修改成功',{
                                 icon:1,

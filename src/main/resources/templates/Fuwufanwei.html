@@ -267,10 +267,9 @@
             dataType:"JSON",
             url: "/springboot/fuwu/selectProject",
             success: function (data) {
-               // alert(data);
+
                 $.each(data, function (index,item){
-                    //alert(index);
-                   //  alert(item);
+
                     $("#sendQueueChannel").append(new Option(item.p_name));
                 });
                 layui.form.render("select");

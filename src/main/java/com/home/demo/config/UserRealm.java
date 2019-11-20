@@ -41,13 +41,10 @@ DengluService dengluService;
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("开始认证");
         String username=(String)authenticationToken.getPrincipal();
         user userEntity= null;
-        System.out.println(username);
         try{
             userEntity=dengluService.selectuser(username);
-            System.out.println(userEntity);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -74,7 +74,7 @@ var dddd;
             data:{"r_id":dd},
             type:"post",
             success:function(sss){
-                alert(sss);
+
                 var d=0;
                 layui.use(['tree', 'util'], function() {
                     var tree = layui.tree
@@ -84,12 +84,11 @@ var dddd;
 
                         oncheck: function(obj){
                         var data = obj.data;  //获取当前点击的节点数据
-                        alert('<br>节点数据：' + JSON.stringify(data));
+
                         if(data.children==null){
-                            alert("null");
-                            alert(checkCallback);
+
                             d++;
-                            alert(d);
+
                             if(d==sss.length+1){
                                 checkCallback=true;
                             }
@@ -99,7 +98,7 @@ var dddd;
                                     data:{"roleid":dddd,"menuid":data.id},
                                     type:"post",
                                     success:function(data){
-                                        alert(data);
+
                                     }
                                 });
                             }
@@ -110,7 +109,7 @@ var dddd;
                                 data:{"roleid":dddd,"menuid":data.id},
                                 type:"post",
                                 success:function(data){
-                                    alert(data);
+
                                 }
                             });
                         }

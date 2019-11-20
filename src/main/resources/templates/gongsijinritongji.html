@@ -53,88 +53,86 @@
         type:"post",
         success:function(data){
             arr=data;
-                alert(arr[1]);
-            alert(arr);
+            var dom = document.getElementById("container");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            option = {
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                },
+                legend: {
+                    data:['今日所有单量','所有完成单量','所以进行中单量','所有取消单量','交易金额','保洁师获利','公司获利']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis :
+                    {
+                        type : 'category',
+                        data : ['今日']
+                    }
+                ,
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'今日所有单量',
+                        type:'bar',
+                        data:[arr[0]]
+                    },
+                    {
+                        name:'所有完成单量',
+                        type:'bar',
+                        data:[arr[1]]
+                    },
+                    {
+                        name:'所以进行中单量',
+                        type:'bar',
+
+                        data:[arr[2]]
+                    },
+                    {
+                        name:'所有取消单量',
+                        type:'bar',
+
+                        data:[arr[3]]
+                    },
+                    {
+                        name:'交易金额',
+                        type:'bar',
+
+                        data:[arr[4]]
+                    },
+                    {
+                        name:'保洁师获利',
+                        type:'bar',
+
+                        data:[arr[5]]
+                    },
+                    {
+                        name:'公司获利',
+                        type:'bar',
+
+                        data:[arr[6]]
+                    }
+                ]
+            };
+            ;
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
         }
     });
-    alert(arr);
-    var dom = document.getElementById("container");
-    var myChart = echarts.init(dom);
-    var app = {};
-    option = null;
-    option = {
-        tooltip : {
-            trigger: 'axis',
-            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            }
-        },
-        legend: {
-            data:['今日所有单量','所有完成单量','所以进行中单量','所有取消单量','交易金额','保洁师获利','公司获利']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis :
-            {
-                type : 'category',
-                data : ['今日']
-            }
-        ,
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'今日所有单量',
-                type:'bar',
-                data:[arr[0]]
-            },
-            {
-                name:'所有完成单量',
-                type:'bar',
-                data:[arr[1]]
-            },
-            {
-                name:'所以进行中单量',
-                type:'bar',
 
-                data:[arr[2]]
-            },
-            {
-                name:'所有取消单量',
-                type:'bar',
-
-                data:[arr[3]]
-            },
-            {
-                name:'交易金额',
-                type:'bar',
-
-                data:[arr[4]]
-            },
-            {
-                name:'保洁师获利',
-                type:'bar',
-
-                data:[arr[5]]
-            },
-            {
-                name:'公司获利',
-                type:'bar',
-
-                data:[arr[6]]
-            }
-        ]
-    };
-    ;
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
-    }
 </script>
 </html>

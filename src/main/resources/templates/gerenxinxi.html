@@ -70,9 +70,7 @@
             data:{"u_id":u_id,"u_name":u_name,"u_password":u_password,"u_sex":u_sex,"u_age":u_age,"u_address":u_address},
             type:"post",
             success:function(data){
-                alert(data);
                 if(data==true){
-                    alert("成功了");
                     parent.location.reload();
                 }
         }
