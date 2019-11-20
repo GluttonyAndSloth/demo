@@ -96,6 +96,12 @@
             >
         select * from evaluate where c_id=#{c_id}
     </select>
+    <select id="selectpjtp" resultType="com.home.demo.entity.pjtupian"
+    >
+        select t.* from evaluate e,tupian_pingjia t where c_id=#{c_id} and e.e_id=t.e_id
+    </select>
+
+
     <update id="bjsjin" parameterType="com.home.demo.entity.baojieshi">
         UPDATE cleaner set c_status='禁用' where c_id=#{c_id}
     </update>

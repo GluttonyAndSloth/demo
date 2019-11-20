@@ -75,6 +75,7 @@ public class dengluController {
      String name=session.getAttribute("nnn").toString();
     List<quanxian> zq=dengluService.selectzq(name);
     List<quanxian> cq=dengluService.selectcq(name);
+        System.out.println(zq);
         model.addAttribute("Zq",zq);
         model.addAttribute("Cq",cq);
         model.addAttribute("AAA",name);
@@ -263,10 +264,12 @@ dingdan.setC_name(dengluService.selectbjsxm(dingdan.getC_id()));
             }
             z++;
         }
+        List<pjtupian> tp=dengluService.selectpjtp(c_id);
         model.addAttribute("zong",z);
         model.addAttribute("hao",h);
         model.addAttribute("cha",c);
         model.addAttribute("pingjia",zq);
+        model.addAttribute("tp",tp);
      return "chakanpingjia";
     }
 

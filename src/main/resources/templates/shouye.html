@@ -46,7 +46,7 @@
             <br><span id="span1" th:text="'你好！'+${AAA}+' 欢迎登陆.'" style="color: #FFFFFF;margin-left: 25px;display: block;margin-bottom: 10px;"></span>
                 <li th:each="z:${Zq}">
                     <a href="javascript:">
-                        <i class="iconfont left-nav-li" th:lay-tips="${z.name}">&#xe6b8;</i>
+                        <i class="iconfont left-nav-li" th:lay-tips="${z.name}" th:utext="${z.icon}"></i>
                         <cite th:text="${z.name }"></cite>
                         <i class="iconfont nav_right">&#xe697;</i></a>
                     <ul class="sub-menu" th:each="c:${Cq}" th:if="${z.id==c.pid}">

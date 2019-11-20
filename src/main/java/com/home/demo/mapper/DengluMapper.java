@@ -30,6 +30,7 @@ public interface DengluMapper {
     List<dingdan> selectdbjqxx(Map<String, Object> map);
     String selectbjsxm(Integer c_id);
     List<pingjia> selectpjxx(Integer c_id);
+    List<pjtupian> selectpjtp(Integer c_id);
     public int bjsjin(baojieshi baojie);
     public int bjsqi(baojieshi baojie);
     public int bjsxiao(baojieshi baojie);

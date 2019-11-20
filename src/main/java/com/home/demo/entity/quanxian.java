@@ -5,12 +5,14 @@ public class quanxian {
     private String name;
     private String url;
     private Integer pid;
+    private String icon;
 
-    public quanxian(Integer id, String name, String url, Integer pid) {
+    public quanxian(Integer id, String name, String url, Integer pid, String icon) {
         this.id = id;
         this.name = name;
         this.url = url;
         this.pid = pid;
+        this.icon = icon;
     }
 
     public Integer getId() {
@@ -45,6 +47,14 @@ public class quanxian {
         this.pid = pid;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
     @Override
     public String toString() {
         return "quanxian{" +
@@ -52,6 +62,7 @@ public class quanxian {
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
                 ", pid=" + pid +
+                ", icon='" + icon + '\'' +
                 '}';
     }
 

@@ -41,12 +41,14 @@
                                 <div th:each="p:${pingjia}" th:if="${p.e_ping>3}">
                                     <span th:text="${#dates.format(p.e_time, 'yyyy-MM-dd HH:mm:ss')}"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_person}"></span><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_info}"></span><br>
+                                    <img th:each="t:${tp}" th:if="${p.e_id==t.e_id}" th:src="${t.tp_url}"  width="100">
                                     <hr>
                                 </div>
                             </div>
                             <div class="layui-tab-item"> <div th:each="p:${pingjia}" th:if="${p.e_ping<=3}">
                                 <span th:text="${#dates.format(p.e_time, 'yyyy-MM-dd HH:mm:ss')}"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_person}"></span><br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_info}"></span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${p.e_info}"></span><br>
+                                <img th:each="t:${tp}" th:if="${p.e_id==t.e_id}" th:src="${t.tp_url}" width="100">
                                 <br><hr>
                             </div></div>
                         </div>

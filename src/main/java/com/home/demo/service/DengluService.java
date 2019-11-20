@@ -136,6 +136,10 @@ public int selectbdws() {
         // TODO Auto-generated method stub
         return dengluMapper.selectpjxx(c_id);
     }
+    public List<pjtupian> selectpjtp(Integer c_id) {
+        // TODO Auto-generated method stub
+        return dengluMapper.selectpjtp(c_id);
+    }
 
     public int bjsjin(baojieshi baojie){
         return dengluMapper.bjsjin(baojie);

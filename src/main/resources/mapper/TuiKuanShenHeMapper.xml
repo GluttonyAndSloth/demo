@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD com.example.Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.demo.mapper.TuiKuanShenHeMapper">
+    <select id="select" parameterType="map" resultType="com.home.demo.entity.TuiKuaiShenHe">
+    SELECT u.id,b.b_id,b.b_state, u.phone,t.t_id,t.t_reason,t.t_state,o.o_id,o.o_name,o.o_time,o.o_total from users u,tuikuan t,orders o,bank b
+    where o.o_id=t.o_id and o.id=u.id and b.id=u.id and o.id=b.id and b_state=1 and t.t_state='退款中' and o.o_state='退款中' limit #{page},#{limit}
+</select>
+    <select id="select1" parameterType="map"
+            resultType="int">
+        select count(t_id) from tuikuan
+    </select>
+    <update id="update" parameterType="com.home.demo.entity.TuiKuaiShenHe">
+    update orders set o_state='已退款',o_paisong="已退款"where o_id=#{o_id}
+    </update>
+    <update id="update1" parameterType="com.home.demo.entity.TuiKuaiShenHe">
+         update tuikuan set t_state='已退款' where t_id=#{t_id}
+    </update>
+    <update id="update2" parameterType="com.home.demo.entity.TuiKuaiShenHe">
+        update bank set b_money=b_money+#{param2} where id=#{param1} and b_state=1
+    </update>
+</mapper>
